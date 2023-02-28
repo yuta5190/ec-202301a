@@ -60,9 +60,11 @@ public class Order {
 	 */
 	public int CalcTotalPrice() {
 		int total = 0;
-		for (List<Orderitem> orderItem : orderItemList) {
+		for (OrderItem orderItem : orderItemList) {
 			total += orderItem.getSubTotal();
+
 		}
+		return total;
 
 	}
 
