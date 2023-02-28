@@ -4,12 +4,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.User;
+import com.example.form.InsertUserForm;
 import com.example.service.InsertUserService;
 
 /**
@@ -19,14 +19,14 @@ import com.example.service.InsertUserService;
  *
  */
 @Controller
-@RequestMapping("insert-user")
+@RequestMapping("/insert-user")
 public class InsertUserController {
 
 	@Autowired
 	private InsertUserService insertUserService;
 	
 	@GetMapping("")
-	public String index() {
+	public String index(InsertUserForm form,Model model) {
 		
 		return "register_admin";
 	}
@@ -38,15 +38,18 @@ public class InsertUserController {
 	 * @param mlodel　リクエストスコープを使う為の変数
 	 * @return　ログイン画面にリダイレクトします
 	 */
-	@PostMapping("insert")
+	@PostMapping("/insert")
 	public String insert(InsertUserForm form,Model mlodel) {
 		User user = new User();
 		
 		BeanUtils.copyProperties(form, user);
 		
+		user.setName(form.getLastName()+form.getFirstName());
+		
+		System.out.println(user);
 		insertUserService.insert(user);
 		
-		return "redirect:/";
+		return "redirect:login";
 	}
 	
 	

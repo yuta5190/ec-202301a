@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <!--Import Google Icon Font-->
     <link
@@ -52,31 +52,32 @@
         </div>
       </div>
     </header>
+    <form th:action="@{/insert-user/insert}" th:object="${insertUserForm}" method="post">
     <div class="top-wrapper">
       <div class="container">
         <div class="row register-page">
           <div class="error">名前を入力して下さい</div>
           <div class="row">
             <div class="input-field col s6">
-              <input id="last_name" type="text" class="validate" required />
+              <input id="last_name" name="lastName" type="text" class="validate" required th:field="*{lastName}"/>
               <label for="last_name">姓</label>
             </div>
             <div class="input-field col s6">
-              <input id="first_name" type="text" class="validate" required />
+              <input id="first_name" name="firstName" type="text" class="validate" required th:field="*{firstName}"/>
               <label for="first_name">名</label>
-            </div>
-          </div>
-          <div class="error">メールアドレスの形式が不正です</div>
-          <div class="row">
+              </div>
+             </div> 
+             <div class="error">メールアドレスの形式が不正です</div>
+             <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" class="validate" required />
+              <input id="email" name="email" type="email" class="validate" required  th:field="*{email}"/>
               <label for="email">メールアドレス</label>
             </div>
           </div>
           <div class="error">郵便番号はXXX-XXXXの形式で入力してください</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="zipcode" type="text" maxlength="8" />
+              <input id="zipcode" name="zipcode" type="text" maxlength="8" th:field="*{zipcode}"/>
               <label for="zipcode">郵便番号</label>
               <button class="btn" type="button">
                 <span>住所検索</span>
@@ -86,7 +87,7 @@
           <div class="error">住所を入力して下さい</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="address" type="text" />
+              <input id="address" name="address" type="text"  th:field="*{address}"/>
               <label for="address">住所</label>
             </div>
           </div>
@@ -95,7 +96,7 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="tel" type="tel" />
+              <input id="tel" name="telephone" type="tel" th:field="*{telephone}" />
               <label for="tel">電話番号</label>
             </div>
           </div>
@@ -106,10 +107,12 @@
             <div class="input-field col s12">
               <input
                 id="password"
+                name="password"
                 type="password"
                 class="validate"
                 minlength="8"
                 required
+                th:field="*{password}"
               />
               <label for="password">パスワード</label>
             </div>
@@ -119,10 +122,12 @@
             <div class="input-field col s12">
               <input
                 id="confirmation_password"
+                name="confirmationPassword"
                 type="password"
                 class="validate"
                 minlength="8"
                 required
+                th:feild="confirmationPassword"
               />
               <label for="confirmation_password">確認用パスワード</label>
             </div>
@@ -130,16 +135,16 @@
           <div class="row register-admin-btn">
             <button
               class="btn"
-              type="button"
-              onclick="location.href='login.html'"
+              type="submit"
             >
-              <span>登録<i class="material-icons right">done</i></span>
+            <span>登録<i class="material-icons right">done</i></span>
             </button>
           </div>
         </div>
       </div>
       <!-- end container-->
     </div>
+    </form>
     <!-- end top-wrapper -->
     <footer>
       <div class="container">
