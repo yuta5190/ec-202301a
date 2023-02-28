@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja"
+xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <!--Import Google Icon Font-->
     <link
@@ -16,17 +18,9 @@
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/register_admin.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/item_list.css" />
-    <link rel="stylesheet" href="css/item_detail.css" />
-    <link rel="stylesheet" href="css/cart_list.css" />
-    <link rel="stylesheet" href="css/order_confirm.css" />
-    <link rel="stylesheet" href="css/order_finished.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+   
+    <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+   
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,16 +37,16 @@
           </div>
 
           <div class="header-right">
-            <a href="item_list.html">商品一覧</a>
-            <a href="register_admin.html">会員登録</a>
-            <a href="cart_list.html">
+            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <a th:href="@{/}">会員登録</a>
+            <a th:href="@{/}">
               <i class="fas fa-shopping-cart"> </i>カート
             </a>
-            <a href="login.html" class="login">
+            <a th:href="@{/}" class="login">
               <i class="fas fa-sign-in-alt"></i>ログイン
             </a>
 
-            <a href="order_history.html">注文履歴</a>
+            <a th:href="@{/}">注文履歴</a>
           </div>
         </div>
       </div>
@@ -60,192 +54,48 @@
     <!-- search form -->
     <div class="search-wrapper">
       <div class="container">
-        <form method="post" class="search-form">
-          <input type="text" name="name" class="search-name-input" />
-
-          <button class="btn search-btn" type="button">
+        
+        <form th:action="@{/item/showItemList}" method="get" class="search-form">
+          <input type="text" name="name" class="search-name-input"  />
+          <button class="btn search-btn" type="submit">
             <span>検　索</span>
           </button>
+          <div th:unless="${errorMessage==null}" 
+          th:text="${errorMessage}" 
+          class="alert alert-danger">
+         </div>
         </form>
+        
       </div>
     </div>
+
 
     <!-- item list -->
     <div class="item-wrapper">
       <div class="container">
         <div class="items">
         
+        <div th:each="item:${itemList}">
         
           <div class="item">
             <div class="item-icon">
-              <img src="../img_toy/1.jpg" />
+              <img th:src="@{../img_toy/} + ${item.imagePath}" />
             </div>
-            <a href="item_detail.html">ビニールプール</a><br />
-            <span class="price">Ｍ</span>1,490円(税抜)<br />
-            <span class="price">Ｌ</span>2,570円(税抜)<br />
+            <a href="item_detail.html" th:text="${item.name}"></a><br />
+            <span class="price" th:text="${item.priceM}">Ｍ</span>円(税込)<br />
+            <span class="price" th:text="${item.priceL}">Ｌ</span>円(税込)<br />
           </div>
-        
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/2.jpg"/>
-            </div>
-            <a href="item_detail.html">ラジコンバギー ボブキャットEX</a><br />
-            <span class="price">Ｍ</span>1,490円(税抜)<br />
-            <span class="price">Ｌ</span>2,570円(税抜)<br />
-          </div>
-			
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/3.jpg" />
-            </div>
-            <a href="item_detail.html">シルバニアファミリーSylvanian Families(赤い屋根の大きなお家)</a><br />
-            <span class="price">Ｍ</span>1,490円(税抜)<br />
-            <span class="price">Ｌ</span>2,570円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/4.jpg" />
-            </div>
-            <a href="item_detail.html">ハピネスチャージプリキュア! キュアライン</a><br />
-            <span class="price">Ｍ</span>1,900円(税抜)<br />
-            <span class="price">Ｌ</span>2,980円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/5.jpg" />
-            </div>
-            <a href="item_detail.html">こえだちゃん キキ &amp; ララ 月のおうち</a><br />
-            <span class="price">Ｍ</span>1,900円(税抜)<br />
-            <span class="price">Ｌ</span>2,980円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/6.jpg" />
-            </div>
-            <a href="item_detail.html">キラキラ プリキュアアラモード まぜまぜ変身!スイーツパクトDX</a><br />
-            <span class="price">Ｍ</span>2,700円(税抜)<br />
-            <span class="price">Ｌ</span>4,050円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/7.jpg" />
-            </div>
-            <a href="item_detail.html">アンパンマンタウン ようこそ！たのしいパンこうじょうハウス</a><br />
-            <span class="price">Ｍ</span>2,570円(税抜)<br />
-            <span class="price">Ｌ</span>3,780円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/8.jpg" />
-            </div>
-            <a href="item_detail.html">人生ゲーム（2016年ver.）</a><br />
-            <span class="price">Ｍ</span>2,160円(税抜)<br />
-            <span class="price">Ｌ</span>3,380円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/9.jpg" />
-            </div>
-            <a href="item_detail.html">野球盤 3Dエース</a><br />
-            <span class="price">Ｍ</span>2,700円(税抜)<br />
-            <span class="price">Ｌ</span>4,050円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/10.jpg" />
-            </div>
-            <a href="item_detail.html">ベイブレードバースト　B-86 スターター</a><br />
-            <span class="price">Ｍ</span>2,160円(税抜)<br />
-            <span class="price">Ｌ</span>3,380円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/11.jpg" />
-            </div>
-            <a href="item_detail.html">仮面ライダーエグゼイド　ダブル装填　DXガシャコン キースラッシャー</a><br />
-            <span class="price">Ｍ</span>2,700円(税抜)<br />
-            <span class="price">Ｌ</span>4,050円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/12.jpg" />
-            </div>
-            <a href="item_detail.html">トミカハイパーシリーズ ドライブヘッド</a><br />
-            <span class="price">Ｍ</span>2,160円(税抜)<br />
-            <span class="price">Ｌ</span>3,380円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/13.jpg" />
-            </div>
-            <a href="item_detail.html">ミニ四駆スターターパック　MAパワータイプ（ブラストアロー）</a><br />
-            <span class="price">Ｍ</span>2,160円(税抜)<br />
-            <span class="price">Ｌ</span>3,380円(税抜)<br />
-          </div>
-
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/14.jpg" />
-            </div>
-            <a href="item_detail.html">ミニ四駆スターターパック　MAパワータイプ（ブラストアロー）</a><br />
-            <span class="price">Ｍ</span>2,980円(税抜)<br />
-            <span class="price">Ｌ</span>4,460円(税抜)<br />
-          </div>
-          
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/15.jpg" />
-            </div>
-            <a href="item_detail.html">機動戦士ガンダムZZ ダブルゼータガンダム</a><br />
-            <span class="price">Ｍ</span>2,440円(税抜)<br />
-            <span class="price">Ｌ</span>3,650円(税抜)<br />
-          </div>
-          
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/16.jpg" />
-            </div>
-            <a href="item_detail.html">こえだちゃんと木のおうち</a><br />
-            <span class="price">Ｍ</span>2,700円(税抜)<br />
-            <span class="price">Ｌ</span>4,050円(税抜)<br />
-          </div>
-          
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/17.jpg" />
-            </div>
-            <a href="item_detail.html">キラペットドーム &lt;アクセパーティー&gt;</a><br />
-            <span class="price">Ｍ</span>2,440円(税抜)<br />
-            <span class="price">Ｌ</span>3,650円(税抜)<br />
-          </div>
-          
-          <div class="item">
-            <div class="item-icon">
-              <img src="../img_toy/18.jpg" />
-            </div>
-            <a href="item_detail.html">おはじきシール ゆめかわDX</a><br />
-            <span class="price">Ｍ</span>2,700円(税抜)<br />
-            <span class="price">Ｌ</span>4,050円(税抜)<br />
-          </div>
+                
+        </div>
+                
         </div>
       </div>
     </div>
 
-    
 
     <footer>
       <div class="container">
-        <img src="img/header_logo.png" />
+        <img src="../img_toy/header_logo.png" />
         <p>アロハな気分をあなたにお届け！</p>
       </div>
     </footer>

@@ -20,7 +20,7 @@ import com.example.repository.ItemRepository;
 @Transactional
 public class ShowItemListService {
 	@Autowired
-	ItemRepository repository;
+	private ItemRepository repository;
 
 	/**
 	 * 商品情報を全件取得する.
@@ -28,8 +28,14 @@ public class ShowItemListService {
 	 * @param name 商品名
 	 * @return 商品一覧.
 	 */
-	public List<Item> showItemList() {
+	public List<Item> showItemList(String name) {
 		List<Item> itemList = repository.findAll();
+
+		if (name == null) {
+			itemList = repository.findAll();
+		} else {
+			itemList = repository.findByName(name);
+		}
 		return itemList;
 	}
 
