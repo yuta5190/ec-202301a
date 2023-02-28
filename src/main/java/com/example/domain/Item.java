@@ -106,4 +106,10 @@ public class Item {
 		this.toppingList = toppingList;
 	}
 
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", priceM=" + priceM + ", priceL="
+				+ priceL + ", imagePath=" + imagePath + ", deleted=" + deleted + "]";
+	}
+
 }
