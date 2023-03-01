@@ -63,4 +63,20 @@ public class ItemRepository {
 		return itemList;
 	}
 
+	/**
+	 * 主キーから商品を検索する.
+	 * 
+	 * @param id 商品id
+	 * @return 検索された商品情報
+	 */
+	public Item load(Integer id) {
+		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items WHERE id=:id";
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+
+		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
+
+		return item;
+	}
+
 }
