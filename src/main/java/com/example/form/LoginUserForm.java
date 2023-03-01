@@ -7,9 +7,9 @@ package com.example.form;
  *
  */
 public class LoginUserForm {
-
+	/** メールアドレス */
 	private String email;
-
+	/** パスワード */
 	private String password;
 
 	public String getEmail() {

@@ -73,6 +73,13 @@ public class UserRepository {
 		return userList.get(0);
 	}
 
+	/**
+	 * ログインをする為にメールアドレスとパスワードをチェックする.
+	 * 
+	 * @param email 入力されたメールアドレス
+	 * @param password　入力されたパスワード
+	 * @return　存在しない場合はnullを返します
+	 */
 	public User findByMailAddressAndPassword(String email,String password) {
 		String sql = "SELECT id,name,email,password,zipcode,address,telephone FROM users WHERE email=:email AND password=:password;";
 
