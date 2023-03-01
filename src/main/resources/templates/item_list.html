@@ -32,7 +32,7 @@ xmlns:th="http://www.thymeleaf.org"
         <div class="header">
           <div class="header-left">
             <a th:href="@{top.html}">
-              <img class="logo" th:src="@{../img_toy/header_logo.png}" />
+              <img class="logo" th:src="@{/img_toy/header_logo.png}" />
             </a>
           </div>
 
@@ -79,9 +79,9 @@ xmlns:th="http://www.thymeleaf.org"
         
           <div class="item">
             <div class="item-icon">
-              <img th:src="@{../img_toy/} + ${item.imagePath}" />
+              <img th:src="@{/img_toy/} + ${item.imagePath}" />
             </div>
-            <a th:href="@{item_detail.html}" th:text="${item.name}"></a><br />
+            <a th:href="@{/item/showItemList/showItemDetail?itemId=} + ${item.id}" th:text="${item.name}"></a><br />
             <span class="price" th:text="${item.priceM}">Ｍ</span>円(税込)<br />
             <span class="price" th:text="${item.priceL}">Ｌ</span>円(税込)<br />
           </div>
@@ -95,7 +95,7 @@ xmlns:th="http://www.thymeleaf.org"
 
     <footer>
       <div class="container">
-        <img th:src="@{../img_toy/header_logo.png}" />
+        <img th:src="@{/img_toy/header_logo.png}" />
         <p>子供のプレゼントにぜひご利用ください！</p>
       </div>
     </footer>
