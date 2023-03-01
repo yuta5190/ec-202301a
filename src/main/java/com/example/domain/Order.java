@@ -1,6 +1,6 @@
 package com.example.domain;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +50,11 @@ public class Order {
 	 * @return 消費税
 	 */
 	public int getTAX() {
-		return (int) (CalcTotalPrice() * 0.1);
+		int total = 0;
+		for (OrderItem orderitem : orderItemList) {
+			total += orderitem.getSubTotal();
+		}
+		return (int) (total * 0.1);
 	}
 
 	/**
@@ -60,12 +64,10 @@ public class Order {
 	 */
 	public int CalcTotalPrice() {
 		int total = 0;
-		for (OrderItem orderItem : orderItemList) {
-			total += orderItem.getSubTotal();
-
+		for (OrderItem orderitem : orderItemList) {
+			total += orderitem.getSubTotal();
 		}
-		return total;
-
+		return (int) (total * 1.1);
 	}
 
 	@Override
