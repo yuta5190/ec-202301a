@@ -5,17 +5,17 @@ xmlns:th="http://www.thymeleaf.org"
   <head>
     <!--Import Google Icon Font-->
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}"
       rel="stylesheet"
     />
     <!-- Import Materialize CSS -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css}"
     />
     <!-- Import Font Wesome -->
     <link
-      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      th:href="@{https://use.fontawesome.com/releases/v5.6.1/css/all.css}"
       rel="stylesheet"
     />
    
@@ -31,8 +31,8 @@ xmlns:th="http://www.thymeleaf.org"
       <div class="container">
         <div class="header">
           <div class="header-left">
-            <a href="top.html">
-              <img class="logo" src="../img_toy/header_logo.png" />
+            <a th:href="@{top.html}">
+              <img class="logo" th:src="@{../img_toy/header_logo.png}" />
             </a>
           </div>
 
@@ -81,7 +81,7 @@ xmlns:th="http://www.thymeleaf.org"
             <div class="item-icon">
               <img th:src="@{../img_toy/} + ${item.imagePath}" />
             </div>
-            <a href="item_detail.html" th:text="${item.name}"></a><br />
+            <a th:href="@{item_detail.html}" th:text="${item.name}"></a><br />
             <span class="price" th:text="${item.priceM}">Ｍ</span>円(税込)<br />
             <span class="price" th:text="${item.priceL}">Ｌ</span>円(税込)<br />
           </div>
@@ -95,11 +95,11 @@ xmlns:th="http://www.thymeleaf.org"
 
     <footer>
       <div class="container">
-        <img src="../img_toy/header_logo.png" />
+        <img th:src="@{../img_toy/header_logo.png}" />
         <p>アロハな気分をあなたにお届け！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js}"></script>
   </body>
 </html>
