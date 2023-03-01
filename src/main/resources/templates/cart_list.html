@@ -154,13 +154,15 @@
           <div>ご注文金額合計：38,000円 (税込)</div>
         </div>
         <div class="row order-confirm-btn">
-  <form action="@{/orderconfilm}">
-          <input type="hidden" th:value="${session.user.id}">
+        
+  <form th:action="@{/orderconfilm/vieworder}" method="post">
+          <input type="hidden" value=1 th:value=${session.userId} name="userId">
           <button
             class="btn"
             type="submit">
             <span>注文に進む</span>
           </button></form>
+          
         </div>
       </div>
       <!-- end container -->

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
 
 import com.example.domain.Item;
 import com.example.domain.Order;
@@ -17,6 +18,7 @@ import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
 import com.example.domain.Topping;
 
+@Repository
 public class OrderRepository {
 
 	@Autowired
@@ -37,7 +39,7 @@ public class OrderRepository {
 		while (rs.next()) {
 
 			int nowOrderId = rs.getInt("ord_id");
-			int nowOrderItemId = rs.getInt("i_id");
+			int nowOrderItemId = rs.getInt("order_items_id");
 
 			if (nowOrderId != beforeOrderId) {
 				order.setId(nowOrderId);
@@ -122,7 +124,9 @@ public class OrderRepository {
 	 * @return ユーザーIDが存在しているかつ、ステータスが注文前（0）状態だった場合は該当データを返す 該当データが無い場合はNullを返す
 	 */
 	public Order findByUserIdAndStatus(Integer userId, Integer status) {
-		StringBuilder sql = new StringBuilder();
+		String sql="SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id;";
+		
+		/*StringBuilder sql = new StringBuilder();
 		// Order分
 		sql.append(
 				"SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price,");
@@ -143,9 +147,9 @@ public class OrderRepository {
 		// 結合部分
 		sql.append(" FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id");
 		sql.append(" LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON ");
-		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord_user_id = :userId AND ord_status = :status;");
+		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord_user_id = :userId AND ord_status = :status;");**/
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
-		Order order = template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
+		Order order = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
 

@@ -16,7 +16,7 @@ import com.example.repository.OrderRepository;
 public class OrderConfilmService {
 
 	@Autowired
-	private OrderRepository orderrepository;
+	private OrderRepository  orderrepository;
 
 	/**
 	 * ユーザIDを受け取り、ステータスを１にし
