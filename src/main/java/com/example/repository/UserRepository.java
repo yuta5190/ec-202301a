@@ -46,28 +46,47 @@ public class UserRepository {
 	 * @param user 入力されたUser情報
 	 */
 	public void insert(User user) {
-		
+
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
-		
+
 		String insertSql = "INSERT INTO users(name,email,password,zipcode,address,telephone)VALUES(:name,:email,:password,:zipcode,:address,:telephone);";
-		
+
 		template.update(insertSql, param);
 	}
-	
+
 	/**
 	 * メールアドレスの重複チェックをする.
 	 * 
 	 * @param mailAddress 入力されたメールアドレス
-	 * @return　存在しない場合はnullを返します
+	 * @return 存在しない場合はnullを返します
 	 */
 	public User findByMailAddress(String email) {
-		
+
 		String sql = "SELECT id,name,email,password,zipcode,address,telephone FROM users WHERE email=:email;";
-		
+
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-		
-		List<User> userList = template.query(sql, param,USER_ROW_MAPPER);
-		if(userList.size() == 0) {
+
+		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		if (userList.size() == 0) {
+			return null;
+		}
+		return userList.get(0);
+	}
+
+	/**
+	 * ログインをする為にメールアドレスとパスワードをチェックする.
+	 * 
+	 * @param email 入力されたメールアドレス
+	 * @param password　入力されたパスワード
+	 * @return　存在しない場合はnullを返します
+	 */
+	public User findByMailAddressAndPassword(String email,String password) {
+		String sql = "SELECT id,name,email,password,zipcode,address,telephone FROM users WHERE email=:email AND password=:password;";
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password",password);
+
+		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		if (userList.size() == 0) {
 			return null;
 		}
 		return userList.get(0);
