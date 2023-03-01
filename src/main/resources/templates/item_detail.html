@@ -77,21 +77,24 @@ xmlns:th="http://www.thymeleaf.org"
               <label>
                 <input id="size-m" name="size" type="radio" checked="checked" />
                 <span>
-                  &nbsp;<span class="price" th:text="${item.priceM}">Ｍ</span>
+                  &nbsp;<span class="price">Ｍ</span>
+                  <span th:text="${item.priceM}"></span>
                   &nbsp;&nbsp;円(税抜)
                 </span>
               </label>
               <label>
                 <input id="size-l" name="size" type="radio" />
                 <span>
-                  &nbsp;<span class="price" th:text="${item.priceL}">Ｌ</span
-                  >&nbsp;&nbsp;円(税抜)
+                  &nbsp;<span class="price">Ｌ</span>
+                  <span th:text="${item.priceL}"></span>
+                  &nbsp;&nbsp;円(税抜)
                 </span>
               </label>
             </div>
           </div>
+          
           <div class="row item-toppings"
-          th:each=" topping : ${item.toppingList}">
+          th:each="topping:${item.toppingList}">
           
             <div class="item-hedding">
               トッピング：&nbsp;1つにつき
