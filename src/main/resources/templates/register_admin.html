@@ -16,17 +16,17 @@
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/register_admin.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/item_list.css" />
-    <link rel="stylesheet" href="css/item_detail.css" />
-    <link rel="stylesheet" href="css/cart_list.css" />
-    <link rel="stylesheet" href="css/order_confirm.css" />
-    <link rel="stylesheet" href="css/order_finished.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -56,51 +56,51 @@
     <div class="top-wrapper">
       <div class="container">
         <div class="row register-page">
-          <div class="error">名前を入力して下さい</div>
+          <div class=error th:errors="*{lastName}"></div>
           <div class="row">
             <div class="input-field col s6">
-              <input id="last_name" name="lastName" type="text" class="validate" required th:field="*{lastName}"/>
+              <input id="last_name" name="lastName" type="text" class="validate"  th:field="*{lastName}" placeholder="姓を入力して下さい"/>
               <label for="last_name">姓</label>
             </div>
             <div class="input-field col s6">
-              <input id="first_name" name="firstName" type="text" class="validate" required th:field="*{firstName}"/>
+              <input id="first_name" name="firstName" type="text" class="validate"  th:field="*{firstName}" placeholder="名を入力して下さい"/>
               <label for="first_name">名</label>
               </div>
              </div> 
-             <div class="error">メールアドレスの形式が不正です</div>
+             <div class="error" th:errors="*{email}" style="color:red">メールアドレスの形式が不正です</div>
              <div class="row">
             <div class="input-field col s12">
-              <input id="email" name="email" type="email" class="validate" required  th:field="*{email}"/>
+              <input id="email" name="email" type="text" class="validate"  th:field="*{email}" placeholder="メールアドレスを入力して下さい"/>
               <label for="email">メールアドレス</label>
             </div>
           </div>
-          <div class="error">郵便番号はXXX-XXXXの形式で入力してください</div>
+          <div class="error" th:errors="*{zipcode}" style="color:red">郵便番号はXXX-XXXXの形式で入力してください</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="zipcode" name="zipcode" type="text" maxlength="8" th:field="*{zipcode}"/>
+              <input id="zipcode" name="zipcode" type="text" maxlength="8" th:field="*{zipcode}" placeholder="郵便番号を入力して下さい"/>
               <label for="zipcode">郵便番号</label>
               <button class="btn" type="button">
                 <span>住所検索</span>
               </button>
             </div>
           </div>
-          <div class="error">住所を入力して下さい</div>
+          <div class="error" th:errors="*{address}" style="color:red">住所を入力して下さい</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="address" name="address" type="text"  th:field="*{address}"/>
-              <label for="address">住所</label>
+              <input id="address" name="address" type="text"  th:field="*{address}" placeholder="住所を入力して下さい"/>
+              <label for="address" >住所</label>
             </div>
           </div>
-          <div class="error">
+          <div class="error" th:errors="*{telephone}" style="color:red">
             電話番号はXXXX-XXXX-XXXXの形式で入力してください
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="tel" name="telephone" type="tel" th:field="*{telephone}" />
+              <input id="tel" name="telephone" type="tel" th:field="*{telephone}" placeholder="電話番号を入力して下さい"/>
               <label for="tel">電話番号</label>
             </div>
           </div>
-          <div class="error">
+          <div class="error" th:errors="*{password}" style="color:red">
             パスワードは８文字以上１６文字以内で設定してください
           </div>
           <div class="row">
@@ -111,13 +111,14 @@
                 type="password"
                 class="validate"
                 minlength="8"
-                required
                 th:field="*{password}"
+                 placeholder="パスワードを入力して下さい"
+                 style="color:red"
               />
               <label for="password">パスワード</label>
             </div>
           </div>
-          <div class="error">パスワードと確認用パスワードが不一致です</div>
+          <div class="error" th:errors="*{confirmationPassword}" style="color:red">パスワードと確認用パスワードが不一致です</div>
           <div class="row">
             <div class="input-field col s12">
               <input
@@ -126,8 +127,8 @@
                 type="password"
                 class="validate"
                 minlength="8"
-                required
                 th:feild="confirmationPassword"
+                 placeholder="確認用パスワードを入力して下さい"
               />
               <label for="confirmation_password">確認用パスワード</label>
             </div>

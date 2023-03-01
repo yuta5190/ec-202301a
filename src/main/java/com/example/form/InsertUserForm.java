@@ -1,5 +1,10 @@
 package com.example.form;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 /**
  * 入力されたユーザー情報を引き継がせるフォームクラス.
  * 
@@ -8,20 +13,29 @@ package com.example.form;
  */
 public class InsertUserForm {
 	/** 名字 */
+	@NotBlank(message="名前を入力して下さい")
 	private String lastName;
 	/** 名前 */
+	@NotBlank(message="名前を入力して下さい")
 	private String firstName;
 	/** メールアドレス */
+	@NotBlank(message="メールアドレスを入力して下さい")
+	@Email(message="メールアドレスの形式が不正です")
 	private String email;
 	/** 郵便番号 */
+	@Pattern(regexp="^[0-9]{3}-[0-9]{4}$",message="郵便番号はXXX-XXXXの形式にで入力してください")
 	private String zipcode;
 	/** 住所 */
+	@NotBlank(message="住所を入力して下さい")
 	private String address;
 	/**  電話番号 */
+	@Pattern(regexp="^(070|080|090)-\\d{4}-\\d{4}$",message="電話番号はXXX-XXX-XXXXの形式にで入力してください")
 	private String telephone;
 	/** パスワード */
+	@Size(min=8,max=16,message="パスワードは8文字以上16文字以内で設定してください")
 	private String password;
 	/** 確認パスワード */
+	@NotBlank(message="確認用パスワードを入力して下さい")
 	private String confirmationPassword;
 	
 	public String getLastName() {
