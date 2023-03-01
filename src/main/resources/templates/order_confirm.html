@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <!--Import Google Icon Font-->
     <link
@@ -70,73 +70,32 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr th:each="ordeItemList:${oreder.orderItemList}">
                 <td class="cart-item-name">
                   <div class="cart-item-icon">
-                    <img src="img/1.jpg" />
+                    <img src="img/1.jpg" th:src="${item.imagePath}"/>
                   </div>
-                  <span>ハワイアンパラダイス</span>
+                  <span th:text="${item.name}">ハワイアンパラダイス</span>
                 </td>
                 <td>
-                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-                  &nbsp;&nbsp;1個
+                  <span class="price" th:text="${size}">&nbsp;Ｌ</span>
+                  <span th:text="${item.priceM}">&nbsp;&nbsp;2,380円</span>
+                  <span th:text="${quantity}">&nbsp;&nbsp;1個</span>
                 </td>
                 <td>
-                  <ul>
-                    <li>ピーマン300円</li>
-                    <li>オニオン300円</li>
-                    <li>あらびきソーセージ300円</li>
+                  <ul th:each="topping:${orederItemList}">
+                    <li ><div th:text="topping.name"><div th:text="topping.priceM">ピーマン300</div></div>円</li>
                   </ul>
                 </td>
-                <td><div class="text-center">3,280円</div></td>
-              </tr>
-              <tr>
-                <td class="cart-item-name">
-                  <div class="cart-item-icon">
-                    <img src="img/1.jpg" />
-                  </div>
-                  <span>ハワイアンパラダイス</span>
-                </td>
-                <td>
-                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-                  &nbsp;&nbsp;1個
-                </td>
-                <td>
-                  <ul>
-                    <li>ピーマン300円</li>
-                    <li>オニオン300円</li>
-                    <li>あらびきソーセージ300円</li>
-                  </ul>
-                </td>
-                <td><div class="text-center">3,280円</div></td>
-              </tr>
-              <tr>
-                <td class="cart-item-name">
-                  <div class="cart-item-icon">
-                    <img src="img/1.jpg" />
-                  </div>
-                  <span>ハワイアンパラダイス</span>
-                </td>
-                <td>
-                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-                  &nbsp;&nbsp;1個
-                </td>
-                <td>
-                  <ul>
-                    <li>ピーマン300円</li>
-                    <li>オニオン300円</li>
-                    <li>あらびきソーセージ300円</li>
-                  </ul>
-                </td>
-                <td><div class="text-center">3,280円</div></td>
+                <td><div class="text-center" th:text="${item.getSubTotal()}">3,280</div>円</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="row cart-total-price">
-          <div>消費税：8,000円</div>
-          <div>ご注文金額合計：38,000円 (税込)</div>
+          <div th:text="${order.getTax()}">消費税：8,000円</div>
+          <div >ご注文金額合計：<div th:text="${order.getCalcTotalPrice()}">38,000</div>円 (税込)</div>
         </div>
 
         <h2 class="page-title">お届け先情報</h2>
