@@ -37,7 +37,7 @@ public class OrderRepository {
 		while (rs.next()) {
 
 			int nowOrderId = rs.getInt("ord_id");
-			int nowOrderItemId = rs.getInt("i_id");
+			int nowOrderItemId = rs.getInt("order_items_id");
 
 			if (nowOrderId != beforeOrderId) {
 				order.setId(nowOrderId);
@@ -191,7 +191,7 @@ public class OrderRepository {
 	public void insert(Order order) {
 		StringBuilder insertSql = new StringBuilder();
 		insertSql.append("INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, ");
-		insertSql.append("destination_address, destination_tel, delivery_time, payment_method) VALUE(:userId, :status, :totalPrice, orderDate, ");
+		insertSql.append("destination_address, destination_tel, delivery_time, payment_method) VALUES(:userId, :status, :totalPrice, orderDate, ");
 		insertSql.append("destinationName, destinationEmail, destinationZipcode, destinationAddress, destinationTel, deliveryTime, paymentMethod);");
 		
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
