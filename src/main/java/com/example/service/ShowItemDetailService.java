@@ -30,8 +30,9 @@ public class ShowItemDetailService {
 		System.out.println(itemId);
 		Item item = itemRepository.load(itemId);
 		
-		//List<Topping>topping = toppingRepository.findAll();
-		//System.out.println(topping);
+		List<Topping>toppingList = toppingRepository.findAll();
+		item.setToppingList(toppingList);
+//		System.out.println(topping);
 		return item;
 	}
 }

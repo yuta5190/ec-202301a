@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Item;
+import com.example.form.ShoppingCartForm;
 import com.example.service.ShowItemDetailService;
 
 
@@ -24,7 +25,7 @@ public class ShowItemDetailController {
 	private ShowItemDetailService service;
 	
 		@GetMapping("/showItemDetail")
-		public String showItemDetail(Integer itemId,Model model) {
+		public String showItemDetail(Integer itemId,Model model,ShoppingCartForm shoppingCartForm) {
 			System.out.println(itemId);
 			Item item = service.showItemDetail(itemId);
 			model.addAttribute("item",item);
