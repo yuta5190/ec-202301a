@@ -11,7 +11,6 @@ import com.example.domain.Topping;
 import com.example.repository.ItemRepository;
 import com.example.repository.ToppingRepository;
 
-
 /**
  * 商品詳細を操作するサービス
  * 
@@ -25,14 +24,11 @@ public class ShowItemDetailService {
 	private ItemRepository itemRepository;
 	@Autowired
 	private ToppingRepository toppingRepository;
-	
+
 	public Item showItemDetail(Integer itemId) {
-		System.out.println(itemId);
 		Item item = itemRepository.load(itemId);
-		
 		List<Topping>toppingList = toppingRepository.findAll();
 		item.setToppingList(toppingList);
-//		System.out.println(topping);
 		return item;
 	}
 }
