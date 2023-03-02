@@ -2,6 +2,7 @@ package com.example.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,9 @@ public class InsertUserController {
 	@Autowired
 	private InsertUserService insertUserService;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@GetMapping("")
 	public String index(InsertUserForm form, Model model) {
 
@@ -45,30 +49,34 @@ public class InsertUserController {
 	@PostMapping("/insert")
 	public String insert(@Validated InsertUserForm form, BindingResult result, RedirectAttributes redirectAttributes,
 			Model model) {
-		
-		if(!(form.getEmail().equals(form.getConfirmationPassword()))) {
-			FieldError fieldError = new FieldError(result.getObjectName(), "confirmationPassword", "パスワードと確認用パスワードが不一致です");
+
+		/** パスワードと確認用パスワードの入力値チェックをします. */
+		if (!(form.getPassword().equals(form.getConfirmationPassword()))) {
+			FieldError fieldError = new FieldError(result.getObjectName(), "confirmationPassword",
+					"パスワードと確認用パスワードが不一致です");
 			result.addError(fieldError);
 		}
-		
-		User user = new User();
-		user = insertUserService.findByMaillAddress(form.getEmail());
 
-		if (!(user == null)) {
+		/** メールアドレスの重複チェックをします. */
+		User userMailAddress = insertUserService.findByMaillAddress(form.getEmail());
+
+		if (!(userMailAddress == null)) {
 			FieldError fieldError = new FieldError(result.getObjectName(), "email", "そのメールアドレスは既に使われています");
 			result.addError(fieldError);
 		}
 
+		/** エラーが発生したら登録画面にリターンします. */
 		if (result.hasErrors()) {
 			return index(form, model);
 		}
 
-		user.setName(form.getLastName() + form.getFirstName());
+		User user = new User();
 		BeanUtils.copyProperties(form, user);
-		System.out.println(user);
+		user.setPassword(passwordEncoder.encode(form.getPassword()));
+		user.setName(form.getLastName() + form.getFirstName());
 		insertUserService.insert(user);
 
-		return "redirect:login";
+		return "redirect:/login-user/";
 	}
 
 }
