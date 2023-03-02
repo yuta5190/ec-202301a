@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.User;
 import com.example.form.LoginUserForm;
@@ -53,18 +52,18 @@ public class LoginUserController {
 	 * @return 商品一覧画面へリダイレクトします
 	 */
 	@PostMapping("/login")
-	public String login(LoginUserForm form, Model model,RedirectAttributes redirectAttributes) {
+	public String login(LoginUserForm form, Model model) {
 
 		User user = loginUserService.login(form.getEmail(), form.getPassword());
-		
-		
+
 		if (user == null) {
-			redirectAttributes.addFlashAttribute("errorMessage","メールアドレス、またはパスワードが間違っています");
-			return "redirect:/login-user/";
+			model.addAttribute("errorMessage", "メールアドレス、またはパスワードが間違っています");
+			return "/login-user/";
 		}
 		
+		session.setAttribute("user", user);
 
-		return "item_list_toy";
+		return "item_list";
 
 	}
 
@@ -78,7 +77,7 @@ public class LoginUserController {
 		
 		session.invalidate();
 		
-		return "redirect:/login-user/";
+		return "redirect:/";
 
 	}
 
