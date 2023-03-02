@@ -59,25 +59,25 @@
           <div class=error th:errors="*{lastName}"></div>
           <div class="row">
             <div class="input-field col s6">
-              <input id="last_name" name="lastName" type="text" class="validate"  th:field="*{lastName}" placeholder="姓を入力して下さい"/>
+              <input id="last_name" name="lastName" type="text" class="validate"  th:field="*{lastName}"/>
               <label for="last_name">姓</label>
             </div>
             <div class="input-field col s6">
-              <input id="first_name" name="firstName" type="text" class="validate"  th:field="*{firstName}" placeholder="名を入力して下さい"/>
+              <input id="first_name" name="firstName" type="text" class="validate"  th:field="*{firstName}"/>
               <label for="first_name">名</label>
               </div>
              </div> 
              <div class="error" th:errors="*{email}" style="color:red">メールアドレスの形式が不正です</div>
              <div class="row">
             <div class="input-field col s12">
-              <input id="email" name="email" type="text" class="validate"  th:field="*{email}" placeholder="メールアドレスを入力して下さい"/>
+              <input id="email" name="email" type="text" class="validate"  th:field="*{email}"/>
               <label for="email">メールアドレス</label>
             </div>
           </div>
           <div class="error" th:errors="*{zipcode}" style="color:red">郵便番号はXXX-XXXXの形式で入力してください</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="zipcode" name="zipcode" type="text" maxlength="8" th:field="*{zipcode}" placeholder="郵便番号を入力して下さい"/>
+              <input id="zipcode" name="zipcode" type="text" maxlength="8" th:field="*{zipcode}"/>
               <label for="zipcode">郵便番号</label>
               <button class="btn" type="button">
                 <span>住所検索</span>
@@ -87,7 +87,7 @@
           <div class="error" th:errors="*{address}" style="color:red">住所を入力して下さい</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="address" name="address" type="text"  th:field="*{address}" placeholder="住所を入力して下さい"/>
+              <input id="address" name="address" type="text"  th:field="*{address}"/>
               <label for="address" >住所</label>
             </div>
           </div>
@@ -96,7 +96,7 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="tel" name="telephone" type="tel" th:field="*{telephone}" placeholder="電話番号を入力して下さい"/>
+              <input id="tel" name="telephone" type="tel" th:field="*{telephone}"/>
               <label for="tel">電話番号</label>
             </div>
           </div>
@@ -112,9 +112,7 @@
                 class="validate"
                 minlength="8"
                 th:field="*{password}"
-                 placeholder="パスワードを入力して下さい"
-                 style="color:red"
-              />
+                />
               <label for="password">パスワード</label>
             </div>
           </div>
@@ -128,7 +126,6 @@
                 class="validate"
                 minlength="8"
                 th:feild="confirmationPassword"
-                 placeholder="確認用パスワードを入力して下さい"
               />
               <label for="confirmation_password">確認用パスワード</label>
             </div>
