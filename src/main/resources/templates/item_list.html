@@ -71,7 +71,10 @@ xmlns:th="http://www.thymeleaf.org"
       <div class="container">
         
         <form th:action="@{/item/showItemList}" method="get" class="search-form">
-          <input type="text" name="name" class="search-name-input"  />
+          <input type="text" name="name" class="search-name-input" autocomplete="name" list="itemList"/>
+          <datalist id="itemList">
+          <option th:each="item:${itemList}" th:value="${item.name}"></option>
+          </datalist>
           <button class="btn search-btn" type="submit">
             <span>検　索</span>
           </button>
@@ -125,7 +128,7 @@ xmlns:th="http://www.thymeleaf.org"
    <script>
 			$(function() { //商品リストページング
 				$('.items').paginathing({//親要素のclassを記述
-					perPage: 9,//1ページあたりの表示件数
+					perPage: 8,//1ページあたりの表示件数
 					prevText:'前へ',//1つ前のページへ移動するボタンのテキスト
 					nextText:'次へ',//1つ次のページへ移動するボタンのテキスト
 				})
