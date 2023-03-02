@@ -18,8 +18,18 @@ xmlns:th="http://www.thymeleaf.org"
       th:href="@{https://use.fontawesome.com/releases/v5.6.1/css/all.css}"
       rel="stylesheet"
     />
-   
+
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
     <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
    
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -82,8 +92,10 @@ xmlns:th="http://www.thymeleaf.org"
               <img th:src="@{/img_toy/} + ${item.imagePath}" />
             </div>
             <a th:href="@{/item/showItemList/showItemDetail?itemId=} + ${item.id}" th:text="${item.name}"></a><br />
-            <span class="price" th:text="${item.priceM}">Ｍ</span>円(税込)<br />
-            <span class="price" th:text="${item.priceL}">Ｌ</span>円(税込)<br />
+            <span class="price">Ｍ</span>
+            <span th:text="${item.priceM}"></span>円(税抜)<br />
+            <span class="price">Ｌ</span>
+            <span th:text="${item.priceL}"></span>円(税抜)<br />
           </div>
                 
         </div>
@@ -96,7 +108,7 @@ xmlns:th="http://www.thymeleaf.org"
     <footer>
       <div class="container">
         <img th:src="@{/img_toy/header_logo.png}" />
-        <p>子供のプレゼントにぜひご利用ください！</p>
+        <p>お子様にプレゼントをお届けします！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->

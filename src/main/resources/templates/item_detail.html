@@ -18,13 +18,21 @@ xmlns:th="http://www.thymeleaf.org"
       th:href="@{https://use.fontawesome.com/releases/v5.6.1/css/all.css}"
       rel="stylesheet"
     />
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
     <link rel="stylesheet" th:href="@{/css/item_list.css}" />
     <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
     <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
     <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
     <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
     <link rel="stylesheet" th:href="@{/css/responsive.css}" />
+    <script th:src="@{/js/item_detail.js}"></script>
+    
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,7 +68,7 @@ xmlns:th="http://www.thymeleaf.org"
     <div class="top-wrapper">
       <div class="container">
       
-        <h1 class="page-title" th:text="${item.name}">dummy</h1>
+        <h1 class="page-title" th:text="${item.name}">商品名</h1>
         <div class="row">
           <div class="row item-detail">
             <div class="item-icon">
@@ -68,56 +76,54 @@ xmlns:th="http://www.thymeleaf.org"
             </div>
             <div class="item-intro"
             	th:text="${item.description}">
-            	dummy
+            	商品説明
             </div>
           </div>
+          
           <div class="row item-size">
-            <div class="item-hedding">サイズ</div>
+            <div class="item-hedding" id="size">サイズ</div>
             <div>
               <label>
-                <input id="size-m" name="size" type="radio" checked="checked" />
+                <input id="size-m" name="size" type="radio" checked="checked" value="M" class="size"/>
                 <span>
                   &nbsp;<span class="price">Ｍ</span>
-                  <span th:text="${item.priceM}"></span>
+                  <span th:text="${#numbers.formatInteger(item.priceM, 1, 'COMMA')}" id="priceM"></span>
                   &nbsp;&nbsp;円(税抜)
                 </span>
               </label>
               <label>
-                <input id="size-l" name="size" type="radio" />
+                <input id="size-l" name="size" type="radio" value="L" class="size"/>
                 <span>
                   &nbsp;<span class="price">Ｌ</span>
-                  <span th:text="${item.priceL}"></span>
+                  <span th:text="${#numbers.formatInteger(item.priceL, 1, 'COMMA')}" id="priceL"></span>
                   &nbsp;&nbsp;円(税抜)
                 </span>
               </label>
             </div>
           </div>
           
-          <div class="row item-toppings"
-          th:each="topping:${item.toppingList}">
-          
+          <div class="row item-toppings">
             <div class="item-hedding">
               トッピング：&nbsp;1つにつき
-              <span th:text="${topping.priceM}">&nbsp;Ｍ&nbsp;</span>&nbsp;&nbsp;円(税抜)
-              <span th:text="${topping.priceL}">&nbsp;Ｌ</span>&nbsp;&nbsp;円(税抜)
+              <span>&nbsp;Ｍ&nbsp;</span>
+              &nbsp;&nbsp;200円(税抜)
+              <span>&nbsp;Ｌ</span>
+              &nbsp;&nbsp;300円(税抜)
             </div>
-            <div>
+            <span th:each="topping:${item.toppingList}">
               <label class="item-topping">
-                <input type="checkbox" />
-                <span th:text="${topping.name}">dummy</span>
-              </label>
-              
-            </div>
+                <input type="checkbox" value="" class="checkbox" name="toppingName"/>
+                <span th:text="${topping.name}">トッピング名</span>
+              </label>            
+            </span>
           </div>
-          
-          
           
           <div class="row item-quantity">
             <div class="item-hedding item-hedding-quantity">数量</div>
             <div class="item-quantity-selectbox">
               <div class="input-field col s12">
-                <select class="browser-default">
-                  <option value="" disabled selected>選択して下さい</option>
+                <select class="browser-default" id="toynum">
+                  <option value="" disabled selected>数量を選択して下さい</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -136,7 +142,7 @@ xmlns:th="http://www.thymeleaf.org"
           </div>
           
           <div class="row item-total-price">
-            <span>この商品金額：38,000 円(税抜)</span>
+            <span>この商品金額：<span id="totalprice"></span>円(税抜)</span>
           </div>
           <div class="row item-cart-btn">
             <button
@@ -157,7 +163,7 @@ xmlns:th="http://www.thymeleaf.org"
     <footer>
       <div class="container">
         <img th:src="@{/img_toy/header_logo.png}" />
-        <p>お子様にプレゼントをお届け！</p>
+        <p>お子様にプレゼントをお届けします！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.Item;
 import com.example.service.ShowItemDetailService;
 
-
 /**
  * 商品詳細を操作するコントローラ.
  * 
@@ -22,12 +21,11 @@ public class ShowItemDetailController {
 
 	@Autowired
 	private ShowItemDetailService service;
-	
-		@GetMapping("/showItemDetail")
-		public String showItemDetail(Integer itemId,Model model) {
-			System.out.println(itemId);
-			Item item = service.showItemDetail(itemId);
-			model.addAttribute("item",item);
-			return "item_detail";
-		}
+
+	@GetMapping("/showItemDetail")
+	public String showItemDetail(Integer itemId, Model model) {
+		Item item = service.showItemDetail(itemId);
+		model.addAttribute("item", item);
+		return "item_detail";
+	}
 }
