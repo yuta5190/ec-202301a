@@ -38,7 +38,7 @@ public class LoginUserController {
 	 * @param model ログイン情報をリクエストスコープに格納する変数
 	 * @return
 	 */
-	@GetMapping("/")
+	@GetMapping("")
 	public String index(LoginUserForm form, Model model) {
 
 		return "login";

@@ -31,6 +31,39 @@ public class ItemRepository {
 		return item;
 	};
 
+//	private static final ResultSetExtractor<Item> ITEM_RESULT_SET_EXTRACTOR = (rs) -> {
+//
+//		List<Topping> toppingList = null;
+//
+//		// 前の商品IDを退避しておくための変数
+//		int beforeItemId = 0;
+//
+//		while (rs.next()) {
+//
+//			int nowItemId = rs.getInt("id");
+//
+//			if (nowItemId != beforeItemId) {
+//				Item item = new Item();
+//				item.setId(rs.getInt("id"));
+//				item.setName(rs.getString("name"));
+//				item.setDescription(rs.getString("description"));
+//				item.setPriceM(rs.getInt("price_m"));
+//				item.setPriceL(rs.getInt("price_l"));
+//				item.setImagePath(rs.getString("image_path"));
+//				item.setDeleted(rs.getBoolean("deleted"));
+//				// 空のトッピングリストを作成
+//				toppingList = new ArrayList<Topping>();
+//				item.setToppingList(toppingList);
+//			}
+//
+//			if (rs.getInt("") != 0) {
+//
+//			}
+//
+//		}
+//
+//	};
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 

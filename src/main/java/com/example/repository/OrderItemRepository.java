@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
 
 import com.example.form.ShoppingCartForm;
 
+@Repository
 public class OrderItemRepository {
 
 	@Autowired
@@ -23,9 +25,10 @@ public class OrderItemRepository {
 	public void insert(ShoppingCartForm shoppingCartForm, Integer orderId) {
 		StringBuilder insertsql = new StringBuilder();
 		insertsql.append("INSERT INTO order_items(item_id, order_id, quantity, size)");
-		insertsql.append(" VALUES(:itemId, :quantity, :size);");
+		insertsql.append(" VALUES(:itemId, :orderId, :quantity, :size);");
+
 		SqlParameterSource param = new MapSqlParameterSource().addValue("itemId", shoppingCartForm.getItemId())
-				.addValue("order_id", orderId).addValue("quantity", shoppingCartForm.getQuantity())
+				.addValue("orderId", orderId).addValue("quantity", shoppingCartForm.getQuantity())
 				.addValue("size", shoppingCartForm.getSize());
 		template.update(insertsql.toString(), param);
 	}

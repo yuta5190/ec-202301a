@@ -16,7 +16,9 @@ public class ShoppingCartService {
 
 	 @Autowired
 	 private OrderRepository orderRepository;
+	 @Autowired
 	 private OrderItemRepository orderItemRepository;
+	 @Autowired
 	 private OrderToppingRepository orderToppingRepository;
 
 	 /**
@@ -38,7 +40,18 @@ public class ShoppingCartService {
 	 */
 	public void insert(ShoppingCartForm shoppingCartForm, Integer userId, Integer orderItemId) {
 		 Integer status = 0;
+		 System.out.println("shoppingService内");
+		 System.out.println(shoppingCartForm);
+		 System.out.println(orderRepository.findByUserIdAndStatus(userId, status));
 		 if(orderRepository.findByUserIdAndStatus(userId, status) != null) {
+			 System.out.println("ここまで正常動作");
+			 orderItemRepository.insert(shoppingCartForm, orderItemId);
+			 orderToppingRepository.insert(shoppingCartForm, orderItemId);
+		 }else {
+			 Order order = new Order();
+			 order.setUserId(userId);
+			 order.setStatus(status);
+			 orderRepository.insert(order);
 			 orderItemRepository.insert(shoppingCartForm, userId);
 			 orderToppingRepository.insert(shoppingCartForm, orderItemId);
 		 }

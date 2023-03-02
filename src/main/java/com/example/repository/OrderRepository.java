@@ -26,7 +26,7 @@ public class OrderRepository {
 
 	private static final ResultSetExtractor<Order> ORDER_RESULT_SET_EXTRACTOR = (rs) -> {
 
-		Order order = new Order();
+		Order order = null;
 		List<OrderItem> orderItemList = new LinkedList<OrderItem>();
 		List<OrderTopping> orderToppingList = null;
 		List<Topping> toppingList = null;
@@ -42,6 +42,7 @@ public class OrderRepository {
 			int nowOrderItemId = rs.getInt("order_items_id");
 
 			if (nowOrderId != beforeOrderId) {
+				order = new Order();
 				order.setId(nowOrderId);
 				order.setUserId(rs.getInt("ord_user_id"));
 				order.setStatus(rs.getInt("ord_status"));
@@ -181,7 +182,7 @@ public class OrderRepository {
 		// 結合部分
 		sql.append(" FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id");
 		sql.append(" LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON ");
-		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord_user_id = :id;");
+		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :id;");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		Order order = template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
