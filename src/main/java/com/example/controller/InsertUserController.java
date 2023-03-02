@@ -76,7 +76,7 @@ public class InsertUserController {
 		user.setName(form.getLastName() + form.getFirstName());
 		insertUserService.insert(user);
 
-		return "redirect:/login-user/";
+		return "redirect:/login-user";
 	}
 
 }
