@@ -78,7 +78,7 @@ public class LoginUserController {
 		
 		session.invalidate();
 		
-		return "redirect:/login-user";
+		return "redirect:/item/showItemList";
 
 	}
 
