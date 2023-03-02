@@ -60,11 +60,11 @@ public class LoginUserController {
 		
 		if (user == null) {
 			redirectAttributes.addFlashAttribute("errorMessage","メールアドレス、またはパスワードが間違っています");
-			return "redirect:/login-user/";
+			return "redirect:/login-user";
 		}
 		
-
-		return "item_list_toy";
+		session.setAttribute("User", user);
+		return "redirect:/item/showItemList";
 
 	}
 
@@ -78,7 +78,7 @@ public class LoginUserController {
 		
 		session.invalidate();
 		
-		return "redirect:/login-user/";
+		return "redirect:/login-user";
 
 	}
 
