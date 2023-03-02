@@ -17,7 +17,7 @@ private OrderService orderservice;
 @PostMapping("/orderinfosend")
 public String orderInfoSend(OrderForm orderform) {
 	orderservice.updateOrder(orderform);
-	return "redirect:order_finish";
+	return "order_finished";
 }
 
 }

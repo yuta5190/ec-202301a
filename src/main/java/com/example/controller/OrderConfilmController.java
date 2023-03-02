@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.Order;
+import com.example.form.OrderForm;
 import com.example.service.OrderConfilmService;
 
 /**
@@ -40,7 +41,7 @@ public class OrderConfilmController {
 	 * @return　詳細確認画面
 	 */
 	@PostMapping("/vieworder")
-	public String orderPost(Integer userId, Model model) {
+	public String orderPost(Integer userId, Model model,OrderForm orderform) {
 		System.out.println(userId);
 		if (userId == null) {
 			return "login";

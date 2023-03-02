@@ -112,27 +112,26 @@
 			</div>
 
 			<h2 class="page-title">お届け先情報</h2>
-			<form th:action="@{/order/orderinfosend}" th:object="${OrderForm}"
-				method="post">
+			<form th:action="@{/order/orderinfosend}" th:object="${orderForm}" method="post">
 				<div class="order-confirm-delivery-info">
 					<div class="row">
 
 						<div class="input-field">
 
-							<input id="name" type="text" th:field="*{destinationName}" /> <label
+							<input id="name" type="text" th:field="*{destinationName}" name="destinationName"/> <label
 								for="name">お名前</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field">
-							<input id="email" type="email" th:field="*{destinatioEmail}" /> <label
+							<input id="email" type="email" th:field="*{destinationEmail}" name="destinationEmail"/> <label
 								for="email">メールアドレス</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field">
 							<input id="zipcode" type="text" maxlength="7"
-								th:field="*{destinationZipcode}" /> <label for="zipcode">郵便番号</label>
+								th:field="*{destinationZipcode}" name="destinationZipcode"/> <label for="zipcode">郵便番号</label>
 							<button class="btn" type="button">
 								<span>住所検索</span>
 							</button>
@@ -140,70 +139,74 @@
 					</div>
 					<div class="row">
 						<div class="input-field">
-							<input id="address" type="text" th:field="*{destinationAddress}" />
+							<input id="address" type="text" th:field="*{destinationAddress}" name="destinationAddress" />
 							<label for="address">住所</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field">
-							<input id="tel" type="tel" th:field="*{destinationTel}" /> <label
+							<input id="tel" type="tel" th:field="*{destinationTel}" name="destinationTel"/> <label
 								for="tel">電話番号</label>
 						</div>
 					</div>
 					<div class="row order-confirm-delivery-datetime">
 						<div class="input-field">
-							<input id="deliveryDate" type="date" th:field="*{deliveryDate}" />
+							<input id="orderDate" type="date" th:field="*{orderDate}" name="orderDate"/>
 							<label for="address">配達日時</label>
 						</div>
 						<label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="10時" checked="checked"
-							th:field="*{deliveryTime}" /> <span>10時</span>
+							name="orderTime" type="radio" value="10時" checked="checked"
+							th:field="*{orderTime}" /> <span>10時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="11時"
-							th:field="*{deliveryTime}" /> <span>11時</span>
+							name="orderTime" type="radio" value="11時"
+							th:field="*{orderTime}" /> <span>11時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="12時"
-							th:field="*{deliveryTime}" /> <span>12時</span>
+							name="orderTime" type="radio" value="12時"
+							th:field="*{orderTime}" /> <span>12時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="13時"
-							th:field="*{deliveryTime}" /> <span>13時</span>
+							name="orderTime" type="radio" value="13時"
+							th:field="*{orderTime}" /> <span>13時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="14時"
-							th:field="*{deliveryTime}" /> <span>14時</span>
+							name="orderTime" type="radio" value="14時"
+							th:field="*{orderTime}" /> <span>14時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="15時"
-							th:field="*{deliveryTime}" /> <span>15時</span>
+							name="orderTime" type="radio" value="15時"
+							th:field="*{orderTime}" /> <span>15時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="16時"
-							th:field="*{deliveryTime}" /> <span>16時</span>
+							name="orderTime" type="radio" value="16時"
+							th:field="*{orderTime}" /> <span>16時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="17時"
-							th:field="*{deliveryTime}" /> <span>17時</span>
+							name="orderTime" type="radio" value="17時"
+							th:field="*{orderTime}" /> <span>17時</span>
 						</label> <label class="order-confirm-delivery-time"> <input
-							name="deliveryTime" type="radio" value="18時"
-							th:field="*{deliveryTime}" /> <span>18時</span>
+							name="orderTime" type="radio" value="18時"
+							th:field="*{orderTime}" /> <span>18時</span>
 						</label>
 					</div>
 				</div>
 
 				<h2 class="page-title">お支払い方法</h2>
 				<div class="row order-confirm-payment-method">
-					<span> <label class="order-confirm-payment-method-radio">
-							<input name="paymentMethod" type="radio" value="1"
-							checked="checked" th:field="*{paymentMethod}" /> <span>代金引換</span>
-					</label> <label class="order-confirm-payment-method-radio"> <input
-							name="paymentMethod" type="radio" value="2"
-							th:field="*{paymentMethod}" /> <span>クレジットカード</span>
+					<span> 
+					<label class="order-confirm-payment-method-radio">
+							
+<input name="paymentMethod" type="radio" th:value="1" checked="checked" th:field="*{paymentMethod}" /> <span>代金引換</span>
+					</label> 
+					<label class="order-confirm-payment-method-radio"> 
+				<input name="paymentMethod" type="radio" th:value="2" th:field="*{paymentMethod}" /> <span>クレジットカード</span>
 					</label>
 					</span>
 				</div>
+				
 				<div class="row order-confirm-btn">
-					<button class="btn" type="button"
-						onclick="location.href='order_finished.html'">
+					<button class="btn" type="submit">
 						<span>この内容で注文する</span>
 					</button>
 
 				</div>
+				<input type="hidden" th:value="${order.CalcTotalPrice()} " name="totalPrice">
+				<input type="hidden" th:value=1 name="id">
+				<input type="hidden" th:value="${order.userId}" name="userId">
 			</form>
 
 		</div>
