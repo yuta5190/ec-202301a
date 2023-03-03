@@ -1,13 +1,12 @@
 package com.example.domain;
 
-
 /**
  * User情報を格納するドメインクラス.
  * 
  * @author matsuokatoshiichi
  *
  */
-public class User {
+public class UserInfo {
 	/** ID */
 	private Integer id;
 	/** 名前 */
@@ -22,10 +21,11 @@ public class User {
 	private String address;
 	/** 電話番号 */
 	private String telephone;
-	
-	public User(){}
-	
-	public User(Integer id, String name, String email, String password, String zipcode, String address,
+
+	public UserInfo() {
+	}
+
+	public UserInfo(Integer id, String name, String email, String password, String zipcode, String address,
 			String telephone) {
 		super();
 		this.id = id;
@@ -98,7 +98,5 @@ public class User {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", zipcode="
 				+ zipcode + ", address=" + address + ", telephone=" + telephone + "]";
 	}
-	
 
-	
 }

@@ -3,9 +3,11 @@ package com.example.common;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * パスワードをハッシュ化する為のセキュリティーコンフィグクラス.
@@ -20,10 +22,38 @@ public class SecurityConfig {
 	 * 静的リソースに対してセキュリティの設定を無効にする.
 	 * 
 	 */
-
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().requestMatchers("/css/**", "/img/**", "/js/**");
+	}
+	
+	/**
+	 * 認可の設定やログイン/ログアウトに関する設定.
+	 * 
+	 * @param http
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().requestMatchers("/**").permitAll();
+		http.authorizeHttpRequests()
+			.requestMatchers("/login-user","/insert-user","/item","/item/showItemList","/item/showItemList/showDetail","shopping","/shoppingcart/add-cart","/shoppingcart/to-cartlist","/orderconfilm").permitAll()
+			
+				.anyRequest().authenticated();
+
+		http.formLogin()
+			.loginPage("/login-user")
+			.loginProcessingUrl("/login-user/login")
+			.failureUrl("/login-user?error=true")
+			.defaultSuccessUrl("/item/showItemList", false)
+			.usernameParameter("email")
+			.passwordParameter("password");
+
+		http.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
+			.logoutSuccessUrl("/login-user")
+			.deleteCookies("JSESSIONID")
+			.invalidateHttpSession(true);
 
 		return http.build();
 	}

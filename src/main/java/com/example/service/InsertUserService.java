@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 import com.example.repository.UserRepository;
 
 /**
@@ -26,7 +26,7 @@ public class InsertUserService {
 	 * 
 	 * @param user 入力されたuser情報
 	 */
-	public void insert(User user) {
+	public void insert(UserInfo user) {
 
 		userRepository.insert(user);
 
@@ -38,9 +38,9 @@ public class InsertUserService {
 	 * @param mailAddress 入力されたメールアドレス
 	 * @return 情報が入ったuserオブジェクトを呼び出し元に返します
 	 */
-	public User findByMaillAddress(String email) {
+	public UserInfo findByMaillAddress(String email) {
 
-		User user = userRepository.findByMailAddress(email);
+		UserInfo user = userRepository.findByMailAddress(email);
 
 		return user;
 	}

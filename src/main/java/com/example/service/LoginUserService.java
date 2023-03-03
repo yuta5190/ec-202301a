@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 import com.example.repository.UserRepository;
 
 /**
@@ -31,9 +31,9 @@ public class LoginUserService {
 	 * @param password　入力されたパスワード
 	 * @return
 	 */
-	public User login(String email,String password) {
+	public UserInfo login(String email,String password) {
 		
-		User user = userRepository.findByMailAddress(email);
+		UserInfo user = userRepository.findByMailAddress(email);
 		
 		if(passwordEncoder.matches(password,user.getPassword())) {
 			return user;

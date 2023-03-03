@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Order;
-import com.example.domain.User;
 import com.example.form.ShoppingCartForm;
 import com.example.service.ShoppingCartService;
 
