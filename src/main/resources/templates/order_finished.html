@@ -31,20 +31,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ラクラクアロハ</title>
+    <title>注文完了</title>
   </head>
   <body>
     <header>
       <div class="container">
         <div class="header">
           <div class="header-left">
-            <a href="top.html">
-              <img class="logo" src="img/header_logo.png" />
+            <a th:href="@{/}">
+              <img class="logo" th:src="@{/img_toy/header_logo.png}" />
             </a>
           </div>
 
            <div class="header-right">
-            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <a th:href="@{/}">商品一覧</a>
             <div sec:authorize="!isAuthenticated()">
             <a th:href="@{/insert-user}">会員登録</a>
             </div>
@@ -57,8 +57,8 @@
             </a>  </div>
              <div sec:authorize="hasRole('ROLE_USER')">
              <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
-
-            <a th:href="@{/orederhistory/view}">注文履歴</a>
+			<div sec:authorize="hasRole('ROLE_USER')">
+            <a th:href="@{/orederhistory/view}">注文履歴</a></div>
           </div>
         </div>
       </div>
@@ -74,12 +74,13 @@
           <p>メールが届かない場合は「注文履歴」からご確認ください。</p>
         </div>
         <div class="row order-finished-btn">
+          	<a th:href="@{/item/showItemList}">
           <button
             class="btn"
             type="submit"
-          >
-            <span>トップ画面を表示する</span>
+          ><span>トップ画面を表示する</span>
           </button>
+            </a>
         </div>
       </div>
       <!-- end container -->
@@ -88,7 +89,7 @@
     <footer>
       <div class="container">
         <img src="img/header_logo.png" />
-        <p>アロハな気分をあなたにお届け！</p>
+        <p>お子様にプレゼントをお届けします！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->

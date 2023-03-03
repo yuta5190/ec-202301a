@@ -31,14 +31,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ラクラクアロハ</title>
+    <title>カート一覧</title>
   </head>
   <body>
     <header>
       <div class="container">
         <div class="header">
           <div class="header-left">
-            <a href="top.html">
+            <a th:href="@{/}">
               <img
                 class="logo"
                 src="img/header_logo.png"
@@ -48,7 +48,7 @@
           </div>
 
           <div class="header-right">
-            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <a th:href="@{/}">商品一覧</a>
             <div sec:authorize="!isAuthenticated()">
             <a th:href="@{/insert-user}">会員登録</a>
             </div>
@@ -61,8 +61,8 @@
             </a>  </div>
              <div sec:authorize="hasRole('ROLE_USER')">
              <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
-
-            <a th:href="@{/orederhistory/view}">注文履歴</a>
+			<span sec:authorize="!isAuthenticated()">
+            <a th:href="@{/orederhistory/view}">注文履歴</a></span>
           </div>
         </div>
       </div>
@@ -91,7 +91,7 @@
                     />
                   </div>
                   <span th:text="${orderItem.item.name}"
-                    >ハワイアンパラダイス</span
+                    >おもちゃ</span
                   >
                 </td>
                 <td>
@@ -229,7 +229,7 @@
     <footer>
       <div class="container">
         <img src="img/header_logo.png" th:src="@{/img_toy/header_logo.png}" />
-        <p>アロハな気分をあなたにお届け！</p>
+        <p>お子様にプレゼントをお届けします！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->
