@@ -6,9 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.example.domain.Order;
+import com.example.domain.UserInfo;
 import com.example.form.OrderForm;
 import com.example.service.OrderConfilmService;
+
+import jakarta.servlet.http.HttpSession;
 
 /**
  * 注文内容を表示するコントローラー
@@ -22,6 +26,9 @@ public class OrderConfilmController {
 
 	@Autowired
 	private OrderConfilmService orderconfilmservice;
+	
+	@Autowired
+	private HttpSession session;
 
 	/**
 	 * ユーザーIDからカートの商品情報を受け取るメソッド
@@ -41,17 +48,21 @@ public class OrderConfilmController {
 	 * @return　詳細確認画面
 	 */
 	@PostMapping("/vieworder")
-	public String orderPost(Integer userId, Model model,OrderForm orderform) {
-		System.out.println(userId);
-		if (userId == null) {
+	public String orderPost(Model model,OrderForm orderform) {
+		if (session.getAttribute("User") == null) {
 			return "login";
 		} else {
-			Order order = orderconfilmservice.findByOrderid(userId);
+			UserInfo user=(UserInfo) session.getAttribute("User");
+			Integer id = user.getId();
+			Order order = orderconfilmservice.findByOrderid(id);
 			System.out.println("a");
 			System.out.println(order);
 			model.addAttribute("order", order);
 			return "order_confirm";
 		}
 	}
+
+		
+	
 
 }

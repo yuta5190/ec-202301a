@@ -40,7 +40,7 @@ public class Order {
 	/** 支払い方法 */
 	private Integer paymentMethod;
 	/** ユーザー */
-	private User user;
+	private UserInfo user;
 	/** 注文商品リスト */
 	private List<OrderItem> orderItemList;
 
@@ -84,7 +84,7 @@ public class Order {
 
 	public Order(Integer id, Integer userId, Integer status, Integer totalPrice, Date orderDate, String destinationName,
 			String destinationEmail, String destinationZipcode, String destinationAddress, String destinationTel,
-			Timestamp deliveryTime, Integer paymentMethod, User user, List<OrderItem> orderItemList) {
+			Timestamp deliveryTime, Integer paymentMethod, UserInfo user, List<OrderItem> orderItemList) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -198,11 +198,11 @@ public class Order {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public User getUser() {
+	public UserInfo getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserInfo user) {
 		this.user = user;
 	}
 

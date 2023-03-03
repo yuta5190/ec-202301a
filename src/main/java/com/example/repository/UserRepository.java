@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 
 /**
  * Usersテーブルを操作するリポジトリ.
@@ -25,9 +25,9 @@ public class UserRepository {
 	private NamedParameterJdbcTemplate template;
 
 	/** Userオブジェクトを生成する為のローマッパー */
-	private final static RowMapper<User> USER_ROW_MAPPER = (rs, i) -> {
+	private final static RowMapper<UserInfo> USER_ROW_MAPPER = (rs, i) -> {
 
-		User user = new User();
+		UserInfo user = new UserInfo();
 		user.setId(rs.getInt("id"));
 		user.setName(rs.getString("name"));
 		user.setEmail(rs.getString("email"));
@@ -45,7 +45,7 @@ public class UserRepository {
 	 * 
 	 * @param user 入力されたUser情報
 	 */
-	public void insert(User user) {
+	public void insert(UserInfo user) {
 
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
 
@@ -60,13 +60,13 @@ public class UserRepository {
 	 * @param mailAddress 入力されたメールアドレス
 	 * @return 存在しない場合はnullを返します
 	 */
-	public User findByMailAddress(String email) {
+	public UserInfo findByMailAddress(String email) {
 
 		String sql = "SELECT id,name,email,password,zipcode,address,telephone FROM users WHERE email=:email;";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 
-		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		List<UserInfo> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {
 			return null;
 		}
@@ -80,12 +80,12 @@ public class UserRepository {
 	 * @param password　入力されたパスワード
 	 * @return　存在しない場合はnullを返します
 	 */
-	public User findByMailAddressAndPassword(String email,String password) {
+	public UserInfo findByMailAddressAndPassword(String email,String password) {
 		String sql = "SELECT id,name,email,password,zipcode,address,telephone FROM users WHERE email=:email AND password=:password;";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password",password);
 
-		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
+		List<UserInfo> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {
 			return null;
 		}

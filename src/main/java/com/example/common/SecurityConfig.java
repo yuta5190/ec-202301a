@@ -36,21 +36,22 @@ public class SecurityConfig {
 	 */
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().requestMatchers("/**").permitAll()
-
+		http.authorizeHttpRequests()
+			.requestMatchers("/login-user","/insert-user","/item","/item/showItemList","/item/showItemList/showDetail","shopping","/shoppingcart/add-cart","/shoppingcart/to-cartlist","/orderconfilm").permitAll()
+			
 				.anyRequest().authenticated();
 
 		http.formLogin()
-			.loginPage("/")
+			.loginPage("/login-user")
 			.loginProcessingUrl("/login-user/login")
-			.failureUrl("/?error=ture")
+			.failureUrl("/login-user?error=true")
 			.defaultSuccessUrl("/item/showItemList", false)
 			.usernameParameter("email")
 			.passwordParameter("password");
 
 		http.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-			.logoutSuccessUrl("/")
+			.logoutSuccessUrl("/login-user")
 			.deleteCookies("JSESSIONID")
 			.invalidateHttpSession(true);
 

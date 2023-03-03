@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 import com.example.form.InsertUserForm;
 import com.example.service.InsertUserService;
 
@@ -58,7 +58,7 @@ public class InsertUserController {
 		}
 
 		/** メールアドレスの重複チェックをします. */
-		User userMailAddress = insertUserService.findByMaillAddress(form.getEmail());
+		UserInfo userMailAddress = insertUserService.findByMaillAddress(form.getEmail());
 
 		if (!(userMailAddress == null)) {
 			FieldError fieldError = new FieldError(result.getObjectName(), "email", "そのメールアドレスは既に使われています");
@@ -70,13 +70,13 @@ public class InsertUserController {
 			return index(form, model);
 		}
 
-		User user = new User();
+		UserInfo user = new UserInfo();
 		BeanUtils.copyProperties(form, user);
 		user.setPassword(passwordEncoder.encode(form.getPassword()));
 		user.setName(form.getLastName() + form.getFirstName());
 		insertUserService.insert(user);
 
-		return "redirect:/login-user/";
+		return "redirect:/login-user";
 	}
 
 }
