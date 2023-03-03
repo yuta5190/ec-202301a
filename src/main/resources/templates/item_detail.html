@@ -20,7 +20,11 @@
       th:href="@{https://use.fontawesome.com/releases/v5.6.1/css/all.css}"
       rel="stylesheet"
     />
-
+	<link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
     <link rel="stylesheet" th:href="@{/css/item_list.css}" />
     <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
     <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
@@ -44,17 +48,22 @@
             </div>
 
             <div class="header-right">
-              <a th:href="@{/item/showItemList}">商品一覧</a>
-              <a th:href="@{/insert-user}">会員登録</a>
-              <a th:href="@{/shoppingcart/cart}">
-                <i class="fas fa-shopping-cart"> </i>カート
-              </a>
-              <a th:href="@{/login-user}" class="login">
-                <i class="fas fa-sign-in-alt"></i>ログイン
-              </a>
-
-              <a th:href="@{/}">注文履歴</a>
+            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <div th:if=${session.User==null}>
+            <a th:href="@{/insert-user}">会員登録</a>
             </div>
+            <a th:href="@{/shoppingcart/to-cartlist}">
+              <i class="fas fa-shopping-cart"> </i>カート
+            </a>
+             <div th:if=${session.User==null}>
+            <a th:href="@{/login-user}" class="login">
+              <i class="fas fa-sign-in-alt"></i>ログイン
+            </a>  </div>
+             <div th:unless=${session.User==null}>
+             <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
+
+            <a th:href="@{/}">注文履歴</a>
+          </div>
           </div>
         </div>
       </header>
@@ -80,18 +89,19 @@
                     value="M"
                     type="radio"
                     checked="checked"
+                    class="size"
                   />
                   <span>
                     &nbsp;<span class="price">Ｍ</span>
-                    <span th:text="${item.priceM}"></span>
+                    <span th:text="${#numbers.formatInteger(item.priceM, 1, 'COMMA')}" id="priceM"></span>
                     &nbsp;&nbsp;円(税抜)
                   </span>
                 </label>
                 <label>
-                  <input id="size-l" name="size" value="L" type="radio" />
+                  <input id="size-l" name="size" value="L" type="radio" class="size"/>
                   <span>
                     &nbsp;<span class="price">Ｌ</span>
-                    <span th:text="${item.priceL}"></span>
+                    <span th:text="${#numbers.formatInteger(item.priceL, 1, 'COMMA')}" id="priceL"></span>
                     &nbsp;&nbsp;円(税抜)
                   </span>
                 </label>
@@ -103,25 +113,27 @@
                 トッピング：&nbsp;1つにつき
                 <span>&nbsp;Ｍ&nbsp;</span>&nbsp;&nbsp;200円(税抜)
                 <span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
-                <div th:each="topping:${item.toppingList}">
+                </div>
+                <span th:each="topping:${item.toppingList}">
                   <label class="item-topping">
                     <input
                       type="checkbox"
                       name="toppingIdList"
                       th:value="${topping.id}"
+                      value=""
+                      class="checkbox"
                     />
-                    <span th:text="${topping.name}">dummy</span>
+                    <span th:text="${topping.name}">トッピング名</span>
                   </label>
-                </div>
-              </div>
+                </span>
             </div>
 
             <div class="row item-quantity">
               <div class="item-hedding item-hedding-quantity">数量</div>
               <div class="item-quantity-selectbox">
                 <div class="input-field col s12">
-                  <select name="quantity" class="browser-default">
-                    <option value="" disabled selected>選択して下さい</option>
+                  <select name="quantity" class="browser-default" id="toynum">
+                    <option value="" disabled selected>数量を選択して下さい</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -140,7 +152,7 @@
             </div>
 
             <div class="row item-total-price">
-              <span>この商品金額：38,000 円(税抜)</span>
+              <span>この商品金額：<span id="totalprice"></span> 円(税抜)</span>
             </div>
             <div class="row item-cart-btn">
               <button
@@ -168,5 +180,7 @@
     <script
       th:src="@{https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js}"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script th:src="@{/js/item_detail.js}"></script>
   </body>
 </html>
