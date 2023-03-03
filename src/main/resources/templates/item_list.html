@@ -51,17 +51,22 @@ xmlns:th="http://www.thymeleaf.org"
             </a>
           </div>
 
-          <div class="header-right">
+        <div class="header-right">
             <a th:href="@{/item/showItemList}">商品一覧</a>
-            <a th:href="@{/}">会員登録</a>
-            <a th:href="@{/}">
+            <div th:if=${session.User==null}>
+            <a th:href="@{/insert-user}">会員登録</a>
+            </div>
+            <a th:href="@{/shoppingcart/to-cartlist}">
               <i class="fas fa-shopping-cart"> </i>カート
             </a>
-            <a th:href="@{/}" class="login">
+             <div th:if=${session.User==null}>
+            <a th:href="@{/login-user}" class="login">
               <i class="fas fa-sign-in-alt"></i>ログイン
-            </a>
+            </a>  </div>
+             <div th:unless=${session.User==null}>
+             <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
 
-            <a th:href="@{/}">注文履歴</a>
+            <a th:href="@{/orederhistory/view}">注文履歴</a>
           </div>
         </div>
       </div>
@@ -71,7 +76,10 @@ xmlns:th="http://www.thymeleaf.org"
       <div class="container">
         
         <form th:action="@{/item/showItemList}" method="get" class="search-form">
-          <input type="text" name="name" class="search-name-input"  />
+          <input type="text" name="name" class="search-name-input" autocomplete="name" list="itemList"/>
+          <datalist id="itemList">
+          <option th:each="item:${itemList}" th:value="${item.name}"></option>
+          </datalist>
           <button class="btn search-btn" type="submit">
             <span>検　索</span>
           </button>
@@ -125,7 +133,7 @@ xmlns:th="http://www.thymeleaf.org"
    <script>
 			$(function() { //商品リストページング
 				$('.items').paginathing({//親要素のclassを記述
-					perPage: 9,//1ページあたりの表示件数
+					perPage: 8,//1ページあたりの表示件数
 					prevText:'前へ',//1つ前のページへ移動するボタンのテキスト
 					nextText:'次へ',//1つ次のページへ移動するボタンのテキスト
 				})

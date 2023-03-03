@@ -1,10 +1,13 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Item;
+import com.example.domain.Topping;
 import com.example.repository.ItemRepository;
 import com.example.repository.ToppingRepository;
 
@@ -24,7 +27,8 @@ public class ShowItemDetailService {
 
 	public Item showItemDetail(Integer itemId) {
 		Item item = itemRepository.load(itemId);
-		item.setToppingList(toppingRepository.findAll());
+		List<Topping>toppingList = toppingRepository.findAll();
+		item.setToppingList(toppingList);
 		return item;
 	}
 }

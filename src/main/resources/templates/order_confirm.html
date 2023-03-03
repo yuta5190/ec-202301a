@@ -37,11 +37,22 @@
 				</div>
 
 				<div class="header-right">
-					<a href="item_list.html">商品一覧</a> <a href="register_admin.html">会員登録</a>
-					<a href="#"><i class="fas fa-shopping-cart"></i>カート</a> <a
-						href="login.html" class="login"> <i class="fas fa-sign-in-alt"></i>ログイン
-					</a> <a href="order_history.html">注文履歴</a>
-				</div>
+            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <div th:if=${session.User==null}>
+            <a th:href="@{/insert-user}">会員登録</a>
+            </div>
+            <a th:href="@{/shoppingcart/to-cartlist}">
+              <i class="fas fa-shopping-cart"> </i>カート
+            </a>
+             <div th:if=${session.User==null}>
+            <a th:href="@{/login-user}" class="login">
+              <i class="fas fa-sign-in-alt"></i>ログイン
+            </a>  </div>
+             <div th:unless=${session.User==null}>
+             <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
+
+            <a th:href="@{/orederhistory/view}">注文履歴</a>
+          </div>
 			</div>
 		</div>
 	</header>

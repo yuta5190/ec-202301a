@@ -38,115 +38,181 @@
         <div class="header">
           <div class="header-left">
             <a href="top.html">
-              <img class="logo" src="img/header_logo.png" />
+              <img class="logo" th:src="@{/img_toy/header_logo.png}" />
             </a>
           </div>
 
           <div class="header-right">
-            <a href="item_list.html">商品一覧</a>
-            <a href="register_admin.html">会員登録</a>
-            <a href="login.html" class="login">
-              <i class="fas fa-sign-in-alt"></i>ログイン
+            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <div th:if=${session.User==null}>
+            <a th:href="@{/insert-user}">会員登録</a>
+            </div>
+            <a th:href="@{/shoppingcart/to-cartlist}">
+              <i class="fas fa-shopping-cart"> </i>カート
             </a>
+             <div th:if=${session.User==null}>
+            <a th:href="@{/login-user}" class="login">
+              <i class="fas fa-sign-in-alt"></i>ログイン
+            </a>  </div>
+             <div th:unless=${session.User==null}>
+             <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
+
+             <a th:href="@{/orederhistory/view}">注文履歴</a>
           </div>
         </div>
       </div>
     </header>
-    <form th:action="@{/insert-user/insert}" th:object="${insertUserForm}" method="post">
-    <div class="top-wrapper">
-      <div class="container">
-        <div class="row register-page">
-          <div class=error th:errors="*{lastName}"></div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="last_name" name="lastName" type="text" class="validate"  th:field="*{lastName}"/>
-              <label for="last_name">姓</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="first_name" name="firstName" type="text" class="validate"  th:field="*{firstName}"/>
-              <label for="first_name">名</label>
+    <form
+      th:action="@{/insert-user/insert}"
+      th:object="${insertUserForm}"
+      method="post"
+    >
+      <div class="top-wrapper">
+        <div class="container">
+          <div class="row register-page">
+            <div class="error" th:errors="*{lastName}"></div>
+            <div class="row">
+              <div class="input-field col s6">
+                <input
+                  id="last_name"
+                  name="lastName"
+                  type="text"
+                  class="validate"
+                  th:field="*{lastName}"
+                  placeholder="姓を入力して下さい"
+                />
+                <label for="last_name">姓</label>
               </div>
-             </div> 
-             <div class="error" th:errors="*{email}" style="color:red">メールアドレスの形式が不正です</div>
-             <div class="row">
-            <div class="input-field col s12">
-              <input id="email" name="email" type="text" class="validate"  th:field="*{email}"/>
-              <label for="email">メールアドレス</label>
+              <div class="input-field col s6">
+                <input
+                  id="first_name"
+                  name="firstName"
+                  type="text"
+                  class="validate"
+                  th:field="*{firstName}"
+                  placeholder="名を入力して下さい"
+                />
+                <label for="first_name">名</label>
+              </div>
             </div>
-          </div>
-          <div class="error" th:errors="*{zipcode}" style="color:red">郵便番号はXXX-XXXXの形式で入力してください</div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="zipcode" name="zipcode" type="text" maxlength="8" th:field="*{zipcode}"/>
-              <label for="zipcode">郵便番号</label>
-              <button class="btn" type="button">
-                <span>住所検索</span>
+            <div class="error" th:errors="*{email}" style="color: red">
+              メールアドレスの形式が不正です
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  class="validate"
+                  th:field="*{email}"
+                  placeholder="メールアドレスを入力して下さい"
+                />
+                <label for="email">メールアドレス</label>
+              </div>
+            </div>
+            <div class="error" th:errors="*{zipcode}" style="color: red">
+              郵便番号はXXX-XXXXの形式で入力してください
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="zipcode"
+                  name="zipcode"
+                  type="text"
+                  maxlength="8"
+                  th:field="*{zipcode}"
+                  placeholder="郵便番号を入力して下さい"
+                />
+                <label for="zipcode">郵便番号</label>
+                <button class="btn" type="button">
+                  <span>住所検索</span>
+                </button>
+              </div>
+            </div>
+            <div class="error" th:errors="*{address}" style="color: red">
+              住所を入力して下さい
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  th:field="*{address}"
+                  placeholder="住所を入力して下さい"
+                />
+                <label for="address">住所</label>
+              </div>
+            </div>
+            <div class="error" th:errors="*{telephone}" style="color: red">
+              電話番号はXXXX-XXXX-XXXXの形式で入力してください
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="tel"
+                  name="telephone"
+                  type="tel"
+                  th:field="*{telephone}"
+                  placeholder="電話番号を入力して下さい"
+                />
+                <label for="tel">電話番号</label>
+              </div>
+            </div>
+            <div class="error" th:errors="*{password}" style="color: red">
+              パスワードは８文字以上１６文字以内で設定してください
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  class="validate"
+                  minlength="8"
+                  th:field="*{password}"
+                  placeholder="パスワードを入力して下さい"
+                  style="color: red"
+                />
+                <label for="password">パスワード</label>
+              </div>
+            </div>
+            <div
+              class="error"
+              th:errors="*{confirmationPassword}"
+              style="color: red"
+            >
+              パスワードと確認用パスワードが不一致です
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="confirmation_password"
+                  name="confirmationPassword"
+                  type="password"
+                  class="validate"
+                  minlength="8"
+                  th:feild="confirmationPassword"
+                  placeholder="確認用パスワードを入力して下さい"
+                />
+                <label for="confirmation_password">確認用パスワード</label>
+              </div>
+            </div>
+            <div class="row register-admin-btn">
+              <button class="btn" type="submit">
+                <span>登録<i class="material-icons right">done</i></span>
               </button>
             </div>
           </div>
-          <div class="error" th:errors="*{address}" style="color:red">住所を入力して下さい</div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="address" name="address" type="text"  th:field="*{address}"/>
-              <label for="address" >住所</label>
-            </div>
-          </div>
-          <div class="error" th:errors="*{telephone}" style="color:red">
-            電話番号はXXXX-XXXX-XXXXの形式で入力してください
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="tel" name="telephone" type="tel" th:field="*{telephone}"/>
-              <label for="tel">電話番号</label>
-            </div>
-          </div>
-          <div class="error" th:errors="*{password}" style="color:red">
-            パスワードは８文字以上１６文字以内で設定してください
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                class="validate"
-                minlength="8"
-                th:field="*{password}"
-                />
-              <label for="password">パスワード</label>
-            </div>
-          </div>
-          <div class="error" th:errors="*{confirmationPassword}" style="color:red">パスワードと確認用パスワードが不一致です</div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input
-                id="confirmation_password"
-                name="confirmationPassword"
-                type="password"
-                class="validate"
-                minlength="8"
-                th:feild="confirmationPassword"
-              />
-              <label for="confirmation_password">確認用パスワード</label>
-            </div>
-          </div>
-          <div class="row register-admin-btn">
-            <button
-              class="btn"
-              type="submit"
-            >
-            <span>登録<i class="material-icons right">done</i></span>
-            </button>
-          </div>
         </div>
+        <!-- end container-->
       </div>
-      <!-- end container-->
-    </div>
     </form>
     <!-- end top-wrapper -->
     <footer>
       <div class="container">
-        <img src="img/header_logo.png" />
+        <img th:src="@{/img_toy/header_logo.png}" />
         <p>アロハな気分をあなたにお届け！</p>
       </div>
     </footer>

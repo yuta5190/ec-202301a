@@ -16,7 +16,9 @@ public class ShoppingCartService {
 
 	 @Autowired
 	 private OrderRepository orderRepository;
+	 @Autowired
 	 private OrderItemRepository orderItemRepository;
+	 @Autowired
 	 private OrderToppingRepository orderToppingRepository;
 
 	 /**
@@ -26,7 +28,9 @@ public class ShoppingCartService {
 	 * @return オーダー情報
 	 */
 	public Order load(Integer userId) {
-		 return orderRepository.load(userId);
+		Order order = new Order();
+		order = orderRepository.load(userId, 0);
+		return order;
 	 }
 	 
 	 /**
@@ -36,10 +40,24 @@ public class ShoppingCartService {
 	 * @param userId
 	 * @param orderItemId
 	 */
-	public void insert(ShoppingCartForm shoppingCartForm, Integer userId, Integer orderItemId) {
+	public void insert(ShoppingCartForm shoppingCartForm, Integer userId) {
 		 Integer status = 0;
+		 System.out.println("shoppingService内");
+		 System.out.println(shoppingCartForm);
+		 System.out.println(orderRepository.findByUserIdAndStatus(userId, status));
 		 if(orderRepository.findByUserIdAndStatus(userId, status) != null) {
-			 orderItemRepository.insert(shoppingCartForm, userId);
+			 System.out.println("ここまで正常動作");
+			 Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
+			 orderItemRepository.insert(shoppingCartForm, orderId);
+			 Integer orderItemId = orderItemRepository.load(orderId).getId();
+			 System.out.println(orderItemId);
+			 orderToppingRepository.insert(shoppingCartForm, orderItemId);
+		 }else {
+			 System.out.println("ユーザーの新規購入操作");
+			 orderRepository.insert(userId, status);
+			 Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
+			 orderItemRepository.insert(shoppingCartForm, orderId);
+			 Integer orderItemId = orderItemRepository.load(orderId).getId();
 			 orderToppingRepository.insert(shoppingCartForm, orderItemId);
 		 }
 	 }
@@ -50,6 +68,6 @@ public class ShoppingCartService {
 	 * @param orderItemId 削除対象となる注文商品ID
  	 */
 	public void deleteByOrderItemId(Integer orderItemId) {
-		 
+		 orderItemRepository.delete(orderItemId);
 	 }
 }
