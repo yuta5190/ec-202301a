@@ -47,5 +47,20 @@ public class ShowItemListController {
 		return "item_list";
 	}
 
-
+	/**
+	 * 商品一覧を並び替える(名前昇順).
+	 * 
+	 * @param model モデル
+	 * @return　商品並び替え結果
+	 */
+	@GetMapping("/sort")
+	public String sortName(Model model,Integer sort) {
+		System.out.println(sort);
+		List<Item> sortList = service.sortItem(sort);
+		model.addAttribute(sortList);
+		System.out.println(sortList);
+		return "item_list";
+	}
+	
+	
 }

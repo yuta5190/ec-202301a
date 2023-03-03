@@ -3,6 +3,13 @@
 /* ========================================
     ショッピングカートページのスタイル
    ======================================== */
+
+.empty {
+  text-align: center;
+  font-size: 25px;
+  color: red;
+}
+
 .cart-table-th {
   text-align: center;
 }

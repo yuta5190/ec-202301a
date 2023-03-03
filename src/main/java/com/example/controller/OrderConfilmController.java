@@ -5,7 +5,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.LoginUser;
@@ -44,23 +43,20 @@ public class OrderConfilmController {
 	 * @param model モデル
 	 * @return　詳細確認画面
 	 */
-	@PostMapping("/vieworder")
+	@GetMapping("/vieworder")
 	public String orderPost(Model model,OrderForm orderform,@AuthenticationPrincipal LoginUser loginUser) {
 		if (loginUser.getUser() == null) {
 			return "login";
 		} else {
-//			UserInfo user=(UserInfo) session.getAttribute("User");
 			UserInfo user = loginUser.getUser();
 			Integer id = user.getId();
 			Order order = orderconfilmservice.findByOrderid(id);
-			System.out.println("a");
-			System.out.println(order);
 			model.addAttribute("order", order);
 			return "order_confirm";
 		}
 	}
 
-		
+	
 	
 
 }
