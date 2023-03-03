@@ -49,6 +49,7 @@ public class OrderConfilmController {
 	 */
 	@PostMapping("/vieworder")
 	public String orderPost(Model model,OrderForm orderform) {
+		System.out.println(session.getAttribute("User"));
 		if (session.getAttribute("User") == null) {
 			return "login";
 		} else {

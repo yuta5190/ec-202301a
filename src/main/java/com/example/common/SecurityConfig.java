@@ -24,7 +24,7 @@ public class SecurityConfig {
 	 */
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().requestMatchers("/css/**", "/img/**", "/js/**");
+		return (web) -> web.ignoring().requestMatchers("/css/**", "/img-toy/**", "/js/**");
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
-			.requestMatchers("/login-user","/insert-user","/item","/item/showItemList","/item/showItemList/showDetail","shopping","/shoppingcart/add-cart","/shoppingcart/to-cartlist","/orderconfilm").permitAll()
+			.requestMatchers("/","/login-user","/insert-user","/insert-user/insert","/item","/item/showItemList","/item/showItemList/showDetail","/shopping","/shoppingcart/add-cart","/shoppingcart/to-cartlist","/orderconfilm","/orderconfilm/vieworder").permitAll()
 			
 				.anyRequest().authenticated();
 
@@ -45,12 +45,12 @@ public class SecurityConfig {
 			.loginPage("/login-user")
 			.loginProcessingUrl("/login-user/login")
 			.failureUrl("/login-user?error=true")
-			.defaultSuccessUrl("/item/showItemList", false)
+			.defaultSuccessUrl("/item/showItemList", true)
 			.usernameParameter("email")
 			.passwordParameter("password");
 
 		http.logout()
-			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
+			.logoutRequestMatcher(new AntPathRequestMatcher("/login-user/logout"))
 			.logoutSuccessUrl("/login-user")
 			.deleteCookies("JSESSIONID")
 			.invalidateHttpSession(true);

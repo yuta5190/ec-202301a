@@ -32,7 +32,7 @@ public class LoginUserController {
 		if (error != null) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 		}
-
+		
 		return "login";
 
 	}
