@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<!-- Import Materialize CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+<!-- Import Font Wesome -->
+<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+	rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+<link rel="stylesheet" th:href="@{/css/header.css}" />
+<link rel="stylesheet" th:href="@{/css/footer.css}" />
+<link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+<link rel="stylesheet" th:href="@{/css/login.css}" />
+<link rel="stylesheet" th:href="@{/css/item_list.css}" />
+<link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+<link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+<link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+<link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+<link rel="stylesheet" th:href="@{/css/responsive.css}" />
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ラクラクアロハ</title>
+</head>
+<body>
+	<header>
+		<div class="container">
+			<div class="header">
+				<div class="header-left">
+					<a href="top.html"> <img class="logo"
+						src="../img_toy/header_logo.png" />
+					</a>
+				</div>
+
+				<div class="header-right">
+            <a th:href="@{/item/showItemList}">商品一覧</a>
+            <div th:if=${session.User==null}>
+            <a th:href="@{/insert-user}">会員登録</a>
+            </div>
+            <a th:href="@{/shoppingcart/to-cartlist}">
+              <i class="fas fa-shopping-cart"> </i>カート
+            </a>
+             <div th:if=${session.User==null}>
+            <a th:href="@{/login-user}" class="login">
+              <i class="fas fa-sign-in-alt"></i>ログイン
+            </a>  </div>
+             <div th:unless=${session.User==null}>
+             <a th:href="@{/login-user/logout}" class="navbar-link">ログアウト</a> </div>
+
+            <a th:href="@{/}">注文履歴</a>
+          </div>
+			</div>
+		</div>
+	</header>
+	<div class="top-wrapper">
+		<div class="container">
+			<h1 class="page-title">注文内容履歴</h1>
+			<!-- table -->
+			<div class="row">
+				<table class="striped">
+					
+					<tbody>
+						<tr th:each="orderItem:${order.orderItemList}">
+							<td class="cart-item-name">
+							<ul>
+							<li class="ordered_date" th:text="${order.orderDate}"></li>
+							<li class="ordered_status" th:text="${order.status}"><li>
+							</ul>
+							</td>
+							<td>
+							<ul>
+							<li class="ordered_item_image"><img src="img/1.jpg"
+										th:src="@{'../img/'+${orderItem.item.imagePath}}" /></li>
+							<li class ="ordered_item_name" th:text="${orderItem.item.name}"></li>
+							<li class ="ordered_item_price">価格:<div th:text="${orderItem.subTotalPrice()}"></div></li>
+							<li class ="orderes_item_quantity">個数:<div  th:text="${orderItem.quantity}"></div></li>
+							</ul>
+							</td>
+							<td>
+							<form th:action="/item/showItemList/showItemDetail" method="post" >
+							<button  class="btn" type="submit" th:value="${orederItem.itemId}"><span class="text-center"
+								>再注文</span></button>
+							
+								</form>
+								</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- end container -->
+	</div>
+
+	<!-- end top-wrapper -->
+	<footer>
+		<div class="container">
+			<img src="../img/header_logo.png" />
+			<p>アロハな気分をあなたにお届け！</p>
+		</div>
+	</footer>
+	<!-- Compiled and minified JavaScript -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
