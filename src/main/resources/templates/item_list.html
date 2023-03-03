@@ -74,9 +74,10 @@ xmlns:th="http://www.thymeleaf.org"
     <!-- search form -->
     <div class="search-wrapper">
       <div class="container">
-        
+
         <form th:action="@{/item/showItemList}" method="get" class="search-form">
           <input type="text" name="name" class="search-name-input" autocomplete="name" list="itemList"/>
+ 
           <datalist id="itemList">
           <option th:each="item:${itemList}" th:value="${item.name}"></option>
           </datalist>
@@ -89,8 +90,20 @@ xmlns:th="http://www.thymeleaf.org"
          </div>
         </form>
         
+        <form name="sortitem" th:action="@{/item/sort}" method="get" class="search-form">
+	  <select onchange="document.sortitem.submit();" name="sort" id="itemsort" class="browser-default">
+      <option th:value="0" >並び替え</option>
+      <option th:value="1">名前(昇順)</option>
+      <option th:value="2">名前(降順)</option>
+      <option th:value="3">Mサイズ料金(安い順)</option>
+      <option th:value="4">Mサイズ料金(高い順)</option>
+      <option th:value="5">Lサイズ料金(安い順)</option>
+      <option th:value="6">Lサイズ料金(高い順)</option>
+      </select>
+        </form>
       </div>
     </div>
+    
 
 
     <!-- item list -->
@@ -106,9 +119,9 @@ xmlns:th="http://www.thymeleaf.org"
             </div>
             <a th:href="@{/item/showItemList/showItemDetail?itemId=} + ${item.id}" th:text="${item.name}"></a><br />
             <span class="price">Ｍ</span>
-            <span th:text="${item.priceM}"></span>円(税抜)<br />
+            <span th:text="${#numbers.formatInteger(item.priceM, 1, 'COMMA')}"></span>円(税抜)<br />
             <span class="price">Ｌ</span>
-            <span th:text="${item.priceL}"></span>円(税抜)<br />
+            <span th:text="${#numbers.formatInteger(item.priceL, 1, 'COMMA')}"></span>円(税抜)<br />
           </div>
                 
         </div>
