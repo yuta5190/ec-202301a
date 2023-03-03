@@ -198,14 +198,14 @@
               </div>
             </div>
 
-            <form th:action="@{/orderconfilm/vieworder}" method="post">
-              <div class="row item-cart-btn">
-                <input type="hidden" value="1" th:value="1" name="userId" />
-                <button class="btn" type="submit">
-                  <span>注文に進む</span>
-                </button>
+          <form th:action="@{/orderconfilm/vieworder}" method="get">
+          <div class="row item-cart-btn">
+            <button class="btn" type="submit">
+              <span>注文に進む</span>
+            </button>
               </div>
             </form>
+
           </div>
         </div>
       </div>

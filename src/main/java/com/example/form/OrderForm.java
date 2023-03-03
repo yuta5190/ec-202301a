@@ -1,5 +1,9 @@
 package com.example.form;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 /**
  * 注文者情報フォーム
  * @author yoshidayuuta
@@ -8,19 +12,25 @@ package com.example.form;
 public class OrderForm {
 	/**注文ID*/
 	private Integer id;
-	/**ユーザーID*/
-	private Integer userId;
 	/**注文者名*/
+	@NotBlank(message="名前を入力して下さい")
 	private String destinationName;
+	@NotBlank(message="メールアドレスを入力して下さい")
+	@Email(message="メールアドレスの形式が不正です")
 	/**注文者メールアドレス*/
 	private String destinationEmail;
 	/**注文者郵便番号*/
+	@Pattern(regexp="^[0-9]{3}-[0-9]{4}$",message="郵便番号はXXX-XXXXの形式で入力してください")
 	private String destinationZipcode;
 	/**注文者住所*/
+	@NotBlank(message="住所を入力して下さい")
+	@Pattern(regexp="^(070|080|090)-\\d{4}-\\d{4}$",message="電話番号はXXX-XXX-XXXXの形式で入力してください")
 	private String destinationAddress;
 	/**注文者電話番号*/
+	@NotBlank(message="配達日を入力して下さい")
 	private String destinationTel;
 	/**お届け日*/
+	@NotBlank(message="配達日を入力して下さい")
 	private String orderDate;
 	/**お届け時間*/
 	private String orderTime;
@@ -32,12 +42,11 @@ public class OrderForm {
 	public OrderForm() {
 	}
 
-	public OrderForm(Integer id, Integer userId, String destinationName, String destinationEmail,
+	public OrderForm(Integer id,  String destinationName, String destinationEmail,
 			String destinationZipcode, String destinationAddress, String destinationTel, String orderDate,
 			String orderTime, Integer paymentMethod, Integer totalPrice) {
 		super();
 		this.id = id;
-		this.userId = userId;
 		this.destinationName = destinationName;
 		this.destinationEmail = destinationEmail;
 		this.destinationZipcode = destinationZipcode;
@@ -55,14 +64,6 @@ public class OrderForm {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 
 	public String getDestinationName() {
@@ -139,7 +140,7 @@ public class OrderForm {
 
 	@Override
 	public String toString() {
-		return "OrderForm [id=" + id + ", userId=" + userId + ", destinationName=" + destinationName
+		return "OrderForm [id=" + id + ", destinationName=" + destinationName
 				+ ", destinationEmail=" + destinationEmail + ", destinationZipcode=" + destinationZipcode
 				+ ", destinationAddress=" + destinationAddress + ", destinationTel=" + destinationTel + ", orderDate="
 				+ orderDate + ", orderTime=" + orderTime + ", paymentMethod=" + paymentMethod + ", totalPrice="
