@@ -9,9 +9,11 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.Order;
+import com.example.domain.UserInfo;
 import com.example.form.OrderForm;
 import com.example.repository.OrderRepository;
 
@@ -31,8 +33,8 @@ public class OrderService {
 	 * 
 	 * @param form 購入者情報
 	 */
-	public void updateOrder(OrderForm form) {
-		Order order = orderrepository.findByUserIdAndStatus(form.getUserId(), 0);
+	public void updateOrder(OrderForm form,@AuthenticationPrincipal UserInfo user) {
+		Order order = orderrepository.findByUserIdAndStatus(user.getId(), 0);
 		if (form.getPaymentMethod() == 1) {
 			order.setPaymentMethod(1);
 		} else if (form.getPaymentMethod() == 2) {
