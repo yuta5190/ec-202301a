@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
+//import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -91,7 +92,7 @@ public class OrderRepository {
 				order.setOrderItemList(orderItemList);				
 			}
 
-			if (rs.getInt("order_items_id") != 0) {
+			if (rs.getInt("order_topping_id") != 0) {
 				OrderTopping orderTopping = new OrderTopping();
 				orderTopping.setId(rs.getInt("order_topping_id"));
 				orderTopping.setToppingId(rs.getInt("order_topping_topping_id"));
@@ -116,6 +117,24 @@ public class OrderRepository {
 		}
 		return order;
 	};
+	
+//	private static final RowMapper<Order> ORDER_ROW_MAPPER = (rs, i) -> {
+//		Order order = new Order();
+//		order.setId(rs.getInt("id"));
+//		order.setUserId(rs.getInt("user_id"));
+//		order.setStatus(rs.getInt("status"));
+//		order.setTotalPrice(rs.getInt("total_price"));
+//		order.setOrderDate(rs.getDate("order_date"));
+//		order.setDestinationName(rs.getString("destination_name"));
+//		order.setDestinationEmail(rs.getString("destination_email"));
+//		order.setDestinationZipcode(rs.getString("destination_zipcode"));
+//		order.setDestinationAddress(rs.getString("destination_address"));
+//		order.setDestinationTel(rs.getString("destination_tel"));
+//		order.setDeliveryTime(rs.getTimestamp("delivery_time"));
+//		order.setPaymentMethod(rs.getInt("payment_method"));
+//		return order;
+//	}; 
+	
 
 	/**
 	 * ユーザーIDとステータス状態から存在する注文情報を取得する.
@@ -125,7 +144,14 @@ public class OrderRepository {
 	 * @return ユーザーIDが存在しているかつ、ステータスが注文前（0）状態だった場合は該当データを返す 該当データが無い場合はNullを返す
 	 */
 	public Order findByUserIdAndStatus(Integer userId, Integer status) {
-		String sql="SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id;";
+		String sql="SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status;";
+//		String sql="SELECT id, user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method FROM orders WHERE user_id = :userId AND status = :status;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
+		
+		Order order = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
+		
+		return order;
+		
 		
 		/*StringBuilder sql = new StringBuilder();
 		// Order分
@@ -149,9 +175,6 @@ public class OrderRepository {
 		sql.append(" FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id");
 		sql.append(" LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON ");
 		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord_user_id = :userId AND ord_status = :status;");**/
-		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
-		Order order = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
-		return order;
 	}
 
 	/**
@@ -160,7 +183,7 @@ public class OrderRepository {
 	 * @param ユーザーID
 	 * @return 一致した注文情報を返す
 	 */
-	public Order load(Integer id) {
+	public Order load(Integer userId, Integer status) {
 		StringBuilder sql = new StringBuilder();
 		// Order分
 		sql.append(
@@ -182,8 +205,8 @@ public class OrderRepository {
 		// 結合部分
 		sql.append(" FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id");
 		sql.append(" LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON ");
-		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :id;");
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status ORDER BY oi.id;");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		Order order = template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
@@ -193,13 +216,20 @@ public class OrderRepository {
 	 * 
 	 * @param DBへ登録する注文情報
 	 */
-	public void insert(Order order) {
+	public void insert(Integer userId, Integer status) {
 		StringBuilder insertSql = new StringBuilder();
-		insertSql.append("INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, ");
-		insertSql.append("destination_address, destination_tel, delivery_time, payment_method) VALUES(:userId, :status, :totalPrice, orderDate, ");
-		insertSql.append("destinationName, destinationEmail, destinationZipcode, destinationAddress, destinationTel, deliveryTime, paymentMethod);");
+//		insertSql.append("INSERT INTO orders(user_id, status)");
+//		insertSql.append(" VALUES(:userId, :status);");
 		
-		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+//		insertSql.append("INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, ");
+//		insertSql.append("destination_address, destination_tel, delivery_time, payment_method) VALUES(:userId, :status, :totalPrice, :orderDate, ");
+//		insertSql.append(":destinationName, :destinationEmail, :destinationZipcode, :destinationAddress, :destinationTel, :deliveryTime, :paymentMethod);");
+	
+		insertSql.append("INSERT INTO orders(user_id, status, total_price");
+		insertSql.append(") VALUES(:userId, :status, 0);");
+		
+//		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		template.update(insertSql.toString(), param);
 	}
 	

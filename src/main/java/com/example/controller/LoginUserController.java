@@ -56,13 +56,14 @@ public class LoginUserController {
 	public String login(LoginUserForm form, Model model,RedirectAttributes redirectAttributes) {
 
 		User user = loginUserService.login(form.getEmail(), form.getPassword());
+		session.setAttribute("user", user);
 		
 		
 		if (user == null) {
 			redirectAttributes.addFlashAttribute("errorMessage","メールアドレス、またはパスワードが間違っています");
 			return "redirect:/login-user";
 		}
-		
+
 		session.setAttribute("User", user);
 		return "redirect:/item/showItemList";
 
