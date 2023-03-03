@@ -118,6 +118,105 @@ public class OrderRepository {
 		return order;
 	};
 	
+	private static final ResultSetExtractor<List<Order>> ORDERLIST_RESULT_SET_EXTRACTOR = (rs) -> {
+
+		Order order = null;
+		List<OrderItem> orderItemList = new LinkedList<OrderItem>();
+		List<OrderTopping> orderToppingList = null;
+		List<Topping> toppingList = null;
+		List<Order> orderList= null;
+
+		// 前の注文IDを退避しておくための変数
+		long beforeOrderId = 0;
+		// 前の注文商品IDを退避しておくための変数
+		long beforeOrderItemId = 0;
+		//前の注文情報を対比しておくための変数
+
+		while (rs.next()) {
+
+			int nowOrderId = rs.getInt("ord_id");
+			int nowOrderItemId = rs.getInt("order_items_id");
+			orderList = new ArrayList<>();
+			
+			order.setOrderItemList(orderItemList);		
+			if (nowOrderId != beforeOrderId) {
+				orderList.add(order);
+				order = new Order();
+				order.setId(nowOrderId);
+				order.setUserId(rs.getInt("ord_user_id"));
+				order.setStatus(rs.getInt("ord_status"));
+				order.setTotalPrice(rs.getInt("ord_total_price"));
+				order.setOrderDate(rs.getDate("ord_order_date"));
+				order.setDestinationName(rs.getString("ord_destination_name"));
+				order.setDestinationEmail(rs.getString("ord_destination_email"));
+				order.setDestinationZipcode(rs.getString("ord_destination_zipcode"));
+				order.setDestinationAddress(rs.getString("ord_destination_address"));
+				order.setDestinationTel(rs.getString("ord_destination_tel"));
+				order.setDeliveryTime(rs.getTimestamp("ord_delivery_time"));
+				order.setPaymentMethod(rs.getInt("ord_payment_method"));
+				// 空の注文商品リストを作成
+				orderItemList = new ArrayList<OrderItem>();
+				order.setOrderItemList(orderItemList);
+				
+			}
+
+			if (nowOrderItemId != beforeOrderItemId) {
+
+				OrderItem orderItem = new OrderItem();
+				orderItem.setId(rs.getInt("order_items_id"));
+				orderItem.setItemId(rs.getInt("order_items_item_id"));
+				orderItem.setOrderId(rs.getInt("order_items_order_id"));
+				orderItem.setQuantity(rs.getInt("order_items_quantity"));
+				char size = rs.getString("order_items_size").charAt(0);
+				orderItem.setSize(size);
+				
+				// OrderItemドメインに格納するItemを生成
+				Item item = new Item();
+				item.setId(rs.getInt("item_id"));
+				item.setName(rs.getString("item_name"));
+				item.setDescription(rs.getString("item_description"));
+				item.setPriceM(rs.getInt("item_price_m"));
+				item.setPriceL(rs.getInt("item_price_l"));
+				item.setImagePath(rs.getString("item_image_path"));
+				item.setDeleted(rs.getBoolean("item_deleted"));
+//				item.setToppingList(toppingList);
+				
+				orderItem.setItem(item);
+
+				// 空の注文トッピングリストを作成
+				orderToppingList = new ArrayList<>();
+				orderItem.setOrderToppingList(orderToppingList);
+				orderItemList.add(orderItem);
+				
+				order.setOrderItemList(orderItemList);				
+			}
+
+			if (rs.getInt("order_topping_id") != 0) {
+				OrderTopping orderTopping = new OrderTopping();
+				orderTopping.setId(rs.getInt("order_topping_id"));
+				orderTopping.setToppingId(rs.getInt("order_topping_topping_id"));
+				orderTopping.setOrderItemId(rs.getInt("order_topping_order_item_id"));
+				
+				// OrderToppingドメインに格納するTopping
+				Topping topping = new Topping();
+				topping.setId(rs.getInt("topping_id"));
+				topping.setName(rs.getString("topping_name"));
+				topping.setPriceM(rs.getInt("topping_price_m"));
+				topping.setPriceL(rs.getInt("topping_price_l"));
+				toppingList = new ArrayList<Topping>();
+				toppingList.add(topping);
+				
+				orderTopping.setTopping(topping);
+				orderToppingList.add(orderTopping);
+			}
+			
+			// 現在の注文IDと注文商品IDを退避させる
+			beforeOrderId = nowOrderId;
+			beforeOrderItemId = nowOrderItemId;
+		}
+		return orderList;
+	};
+	
 //	private static final RowMapper<Order> ORDER_ROW_MAPPER = (rs, i) -> {
 //		Order order = new Order();
 //		order.setId(rs.getInt("id"));
@@ -242,5 +341,21 @@ public class OrderRepository {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		template.update(sql, param);
 	}
+	
+	/**
+	 * 過去注文情報取得
+	 * @param userId　ユーザID
+	 * @param status　注文状況
+	 * @return　過去注文情報
+	 */
+	public List<Order> historyFindByUserIdAndStatus(Integer userId, Integer status) {
+		String sql="SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
+		List<Order> order = template.query(sql, param, ORDERLIST_RESULT_SET_EXTRACTOR);
+		
+		return order;
+		
+}
+
 
 }
