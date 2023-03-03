@@ -27,8 +27,9 @@ public class LoginUserController {
 	 * @return ログイン画面に戻します.
 	 */
 	@GetMapping("")
-
 	public String login(Model model, @RequestParam(required = false) String error) {
+		
+		
 		if (error != null) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 		}

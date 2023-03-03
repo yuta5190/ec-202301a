@@ -1,18 +1,18 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.UserInfo;
 import com.example.form.OrderForm;
 import com.example.service.OrderConfilmService;
-
-import jakarta.servlet.http.HttpSession;
 
 /**
  * 注文内容を表示するコントローラー
@@ -26,9 +26,6 @@ public class OrderConfilmController {
 
 	@Autowired
 	private OrderConfilmService orderconfilmservice;
-	
-	@Autowired
-	private HttpSession session;
 
 	/**
 	 * ユーザーIDからカートの商品情報を受け取るメソッド
@@ -48,12 +45,12 @@ public class OrderConfilmController {
 	 * @return　詳細確認画面
 	 */
 	@PostMapping("/vieworder")
-	public String orderPost(Model model,OrderForm orderform) {
-		System.out.println(session.getAttribute("User"));
-		if (session.getAttribute("User") == null) {
+	public String orderPost(Model model,OrderForm orderform,@AuthenticationPrincipal LoginUser loginUser) {
+		if (loginUser.getUser() == null) {
 			return "login";
 		} else {
-			UserInfo user=(UserInfo) session.getAttribute("User");
+//			UserInfo user=(UserInfo) session.getAttribute("User");
+			UserInfo user = loginUser.getUser();
 			Integer id = user.getId();
 			Order order = orderconfilmservice.findByOrderid(id);
 			System.out.println("a");
