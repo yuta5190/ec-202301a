@@ -39,6 +39,28 @@ public class ShowItemListService {
 		return itemList;
 	}
 	
+	public List<Item> sortItem(Integer sort) {
+		List<Item> sortList = null;
+		if (sort == 1) {
+			sortList = repository.sortByName();
+		} else if (sort == 2) {
+			sortList = repository.sortByNameDesc();
+		} else if (sort == 3) {
+			sortList = repository.sortByMprice();
+		} else if (sort == 4) {
+			sortList = repository.sortByMpriceDesc();
+		} else if (sort == 5) {
+			sortList = repository.sortByLprice();
+		} else if (sort == 6) {
+			sortList = repository.sortByLpriceDecs();
+		} else if (sort == 0) {
+			sortList = repository.findAll();
+		} else {
+			sortList = repository.findAll();
+		}
+
+		return sortList;
+	}
 
 
 }
