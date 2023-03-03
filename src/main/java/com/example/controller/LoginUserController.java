@@ -56,6 +56,7 @@ public class LoginUserController {
 	public String login(LoginUserForm form, Model model,RedirectAttributes redirectAttributes) {
 
 		User user = loginUserService.login(form.getEmail(), form.getPassword());
+		session.setAttribute("user", user);
 		
 		
 		if (user == null) {
@@ -64,7 +65,7 @@ public class LoginUserController {
 		}
 		
 
-		return "item_list_toy";
+		return "item_list";
 
 	}
 

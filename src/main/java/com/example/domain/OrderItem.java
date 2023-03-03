@@ -50,13 +50,13 @@ public class OrderItem {
 		int subTotal = 0;
 		if ('M' == (this.size)) {
 			for (OrderTopping ordertopping : this.orderToppingList) {
-				subTotal = ordertopping.getTopping().getPriceM();
+				subTotal += ordertopping.getTopping().getPriceM();
 			}
 			subTotal = this.item.getPriceM() * this.quantity;
 
 		} else if ('L' == (this.size)) {
 			for (OrderTopping topping : this.orderToppingList) {
-				subTotal = topping.getTopping().getPriceL();
+				subTotal += topping.getTopping().getPriceL();
 			}
 			subTotal = this.item.getPriceL() * this.quantity;
 		}
