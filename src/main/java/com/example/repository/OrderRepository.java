@@ -120,11 +120,11 @@ public class OrderRepository {
 	
 	private static final ResultSetExtractor<List<Order>> ORDERLIST_RESULT_SET_EXTRACTOR = (rs) -> {
 
-		Order order = null;
+		Order order = new Order();
 		List<OrderItem> orderItemList = new LinkedList<OrderItem>();
 		List<OrderTopping> orderToppingList = null;
 		List<Topping> toppingList = null;
-		List<Order> orderList= null;
+		List<Order> orderList= new ArrayList<Order>();
 
 		// 前の注文IDを退避しておくための変数
 		long beforeOrderId = 0;
@@ -136,11 +136,10 @@ public class OrderRepository {
 
 			int nowOrderId = rs.getInt("ord_id");
 			int nowOrderItemId = rs.getInt("order_items_id");
-			orderList = new ArrayList<>();
 			
 			order.setOrderItemList(orderItemList);		
 			if (nowOrderId != beforeOrderId) {
-				orderList.add(order);
+	
 				order = new Order();
 				order.setId(nowOrderId);
 				order.setUserId(rs.getInt("ord_user_id"));
@@ -209,10 +208,12 @@ public class OrderRepository {
 				orderTopping.setTopping(topping);
 				orderToppingList.add(orderTopping);
 			}
-			
+			if (nowOrderId != beforeOrderId) {
+			orderList.add(order);}
 			// 現在の注文IDと注文商品IDを退避させる
 			beforeOrderId = nowOrderId;
 			beforeOrderItemId = nowOrderItemId;
+		
 		}
 		return orderList;
 	};
@@ -349,11 +350,10 @@ public class OrderRepository {
 	 * @return　過去注文情報
 	 */
 	public List<Order> historyFindByUserIdAndStatus(Integer userId, Integer status) {
-		String sql="SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status;";
+		String sql="SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status >= :status;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
-		List<Order> order = template.query(sql, param, ORDERLIST_RESULT_SET_EXTRACTOR);
-		
-		return order;
+		List<Order> orderList = template.query(sql, param, ORDERLIST_RESULT_SET_EXTRACTOR);
+		return orderList;
 		
 }
 
