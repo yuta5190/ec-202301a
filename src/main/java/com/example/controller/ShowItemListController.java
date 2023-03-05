@@ -19,7 +19,7 @@ import com.example.service.ShowItemListService;
  *
  */
 @Controller
-@RequestMapping("/item")
+@RequestMapping("/")
 public class ShowItemListController {
 	@Autowired
 	ShowItemListService service;
@@ -34,7 +34,7 @@ public class ShowItemListController {
 	 * @param name  検索する商品名
 	 * @return 商品一覧画面
 	 */
-	@GetMapping("/showItemList")
+	@GetMapping("")
 	public String showItemList(Model model, String name, Integer page) {
 
 		List<Item> itemList = service.showItemList(name);
@@ -47,5 +47,20 @@ public class ShowItemListController {
 		return "item_list";
 	}
 
-
+	/**
+	 * 商品一覧を並び替える(名前昇順).
+	 * 
+	 * @param model モデル
+	 * @return　商品並び替え結果
+	 */
+	@GetMapping("/sort")
+	public String sortName(Model model,Integer sort) {
+		System.out.println(sort);
+		List<Item> sortList = service.sortItem(sort);
+		model.addAttribute(sortList);
+		System.out.println(sortList);
+		return "item_list";
+	}
+	
+	
 }

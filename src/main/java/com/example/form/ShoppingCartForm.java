@@ -60,7 +60,11 @@ public class ShoppingCartForm {
 	}
 
 	public List<Integer> getToppingIdList() {
-		return toppingIdList;
+		try {
+		}catch(NullPointerException e) {
+			System.err.println("システムエラーが発生しました");
+		}
+		return toppingIdList;			
 	}
 
 	public void setToppingIdList(List<Integer> toppingIdList) {

@@ -10,19 +10,25 @@ import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
 import com.example.repository.OrderToppingRepository;
 
+/**
+ * ショッピングカート情報を操作するサービスクラス.
+ * 
+ * @author seiji_kitahara
+ *
+ */
 @Service
 @Transactional
 public class ShoppingCartService {
 
-	 @Autowired
-	 private OrderRepository orderRepository;
-	 @Autowired
-	 private OrderItemRepository orderItemRepository;
-	 @Autowired
-	 private OrderToppingRepository orderToppingRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
+	@Autowired
+	private OrderToppingRepository orderToppingRepository;
 
-	 /**
-	 * オーダー情報を取得する.
+	/**
+	 * 注文前のオーダー情報を取得する.
 	 * 
 	 * @param userId ユーザーID
 	 * @return オーダー情報
@@ -31,9 +37,9 @@ public class ShoppingCartService {
 		Order order = new Order();
 		order = orderRepository.load(userId, 0);
 		return order;
-	 }
-	 
-	 /**
+	}
+
+	/**
 	 * オーダー情報を挿入する.
 	 * 
 	 * @param shoppingCartForm
@@ -41,33 +47,31 @@ public class ShoppingCartService {
 	 * @param orderItemId
 	 */
 	public void insert(ShoppingCartForm shoppingCartForm, Integer userId) {
-		 Integer status = 0;
-		 System.out.println("shoppingService内");
-		 System.out.println(shoppingCartForm);
-		 System.out.println(orderRepository.findByUserIdAndStatus(userId, status));
-		 if(orderRepository.findByUserIdAndStatus(userId, status) != null) {
-			 System.out.println("ここまで正常動作");
-			 Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
-			 orderItemRepository.insert(shoppingCartForm, orderId);
-			 Integer orderItemId = orderItemRepository.load(orderId).getId();
-			 System.out.println(orderItemId);
-			 orderToppingRepository.insert(shoppingCartForm, orderItemId);
-		 }else {
-			 System.out.println("ユーザーの新規購入操作");
-			 orderRepository.insert(userId, status);
-			 Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
-			 orderItemRepository.insert(shoppingCartForm, orderId);
-			 Integer orderItemId = orderItemRepository.load(orderId).getId();
-			 orderToppingRepository.insert(shoppingCartForm, orderItemId);
-		 }
-	 }
-	 
-	 /**
+		Integer status = 0;
+		if (orderRepository.findByUserIdAndStatus(userId, status) != null) {
+			Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
+			orderItemRepository.insert(shoppingCartForm, orderId);
+			Integer orderItemId = orderItemRepository.load(orderId).getId();
+			if(shoppingCartForm.getToppingIdList() != null) {
+				orderToppingRepository.insert(shoppingCartForm, orderItemId);
+			}
+		} else {
+			orderRepository.insert(userId, status);
+			Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
+			orderItemRepository.insert(shoppingCartForm, orderId);
+			Integer orderItemId = orderItemRepository.load(orderId).getId();
+			if(shoppingCartForm.getToppingIdList() != null) {
+				orderToppingRepository.insert(shoppingCartForm, orderItemId);
+			}
+		}
+	}
+
+	/**
 	 * 注文情報を削除する.
 	 * 
 	 * @param orderItemId 削除対象となる注文商品ID
- 	 */
+	 */
 	public void deleteByOrderItemId(Integer orderItemId) {
-		 orderItemRepository.delete(orderItemId);
-	 }
+		orderItemRepository.delete(orderItemId);
+	}
 }
