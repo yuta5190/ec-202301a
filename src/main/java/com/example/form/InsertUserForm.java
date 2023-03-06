@@ -29,7 +29,7 @@ public class InsertUserForm {
 	@NotBlank(message="住所を入力して下さい")
 	private String address;
 	/**  電話番号 */
-	@Pattern(regexp="^(070|080|090)-\\d{4}-\\d{4}$",message="電話番号はXXX-XXX-XXXXの形式で入力してください")
+	@Pattern(regexp="^(070|080|090)-\\d{4}-\\d{4}$",message="電話番号はXXX-XXXX-XXXXの形式で入力してください")
 	private String telephone;
 	/** パスワード */
 	@Size(min=8,max=16,message="パスワードは8文字以上16文字以内で設定してください")
