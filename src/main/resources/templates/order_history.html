@@ -81,15 +81,15 @@
 							<ul>
 						
 							<li class ="ordered_item_name" th:text="${orderItem.item.name}"></li>
-							<li class ="ordered_item_price">価格:<span th:text="${orderItem.getSubTotal()}"></span></li>
-							<li class ="orderes_item_quantity">個数:<span th:text="${orderItem.quantity}"></span></li>
+							<li class ="ordered_item_price">価格:　<span th:text="${#numbers.formatInteger(orderItem.getSubTotal(),1,'COMMA')}"></span>円</li>
+							<li class ="orderes_item_quantity">個数:　<span th:text="${orderItem.quantity}"></span>個</li>
 							</ul>
 							</td>
 							<td>
-							<form th:action="@{/item/showItemList/showItemDetail}" method="post" >
-							<button  class="btn" type="submit" th:value="${orderItem.itemId}"><span class="text-center"
+							<form th:action="@{/item/showItemList/showItemDetail}" method="get" >
+							<input type="hidden" th:value="${orderItem.itemId}"  name="itemId">
+							<button  class="btn" type="submit"><span class="text-center"
 								>再注文</span></button>
-							
 								</form>
 								</td>
 						</tr>
