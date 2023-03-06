@@ -20,7 +20,7 @@
 <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
 <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
 <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
-<link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+
 <link rel="stylesheet" th:href="@{/css/responsive.css}" />
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -62,35 +62,40 @@
 			<h1 class="page-title">注文内容履歴</h1>
 			<!-- table -->
 			<div class="row">
+			<div th:if="${orderList==null}">注文履歴がありません</div>
+			<div th:each="order:${orderList}">
 				<table class="striped">
 					
 					<tbody>
+					
 						<tr th:each="orderItem:${order.orderItemList}">
 							<td class="cart-item-name">
 							<ul>
 							<li class="ordered_date" th:text="${order.orderDate}"></li>
-							<li class="ordered_status" th:text="${order.status}"><li>
+							<li class="ordered_status"><span th:if="${ order.status==1}">未入金</span><span th:if="${ order.status==2}">入金済み</span><span th:if="${ order.status==3}">発送済み</span><li>
 							</ul>
 							</td>
+							<td><div class="cart-item-icon"><img src="img/1.jpg"
+										th:src="@{'../img_toy/'+${orderItem.item.imagePath}}" /></div></td>
 							<td>
 							<ul>
-							<li class="ordered_item_image"><img src="img/1.jpg"
-										th:src="@{'../img/'+${orderItem.item.imagePath}}" /></li>
+						
 							<li class ="ordered_item_name" th:text="${orderItem.item.name}"></li>
-							<li class ="ordered_item_price">価格:<div th:text="${orderItem.subTotalPrice()}"></div></li>
-							<li class ="orderes_item_quantity">個数:<div  th:text="${orderItem.quantity}"></div></li>
+							<li class ="ordered_item_price">価格:　<span th:text="${#numbers.formatInteger(orderItem.getSubTotal(),1,'COMMA')}"></span>円</li>
+							<li class ="orderes_item_quantity">個数:　<span th:text="${orderItem.quantity}"></span>個</li>
 							</ul>
 							</td>
 							<td>
-							<form th:action="@{/item/showItemList/showItemDetail}" method="post" >
-							<button  class="btn" type="submit" th:value="${orederItem.itemId}"><span class="text-center"
+							<form th:action="@{/item/showItemList/showItemDetail}" method="get" >
+							<input type="hidden" th:value="${orderItem.itemId}"  name="itemId">
+							<button  class="btn" type="submit"><span class="text-center"
 								>再注文</span></button>
-							
 								</form>
 								</td>
 						</tr>
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
 
