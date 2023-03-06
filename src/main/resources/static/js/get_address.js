@@ -1,6 +1,7 @@
 "use strict";
 $(function() {
 $("#get_address_btn").on("click", function() {
+
 $.ajax({
 url: "https://zipcoda.net/api",
 type: "GET",
