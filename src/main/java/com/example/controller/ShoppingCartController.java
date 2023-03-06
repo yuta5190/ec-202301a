@@ -13,6 +13,9 @@ import com.example.domain.Order;
 import com.example.form.ShoppingCartForm;
 import com.example.service.ShoppingCartService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * ショッピングカード情報を操作するコントローラークラス.
  * 
@@ -25,7 +28,7 @@ public class ShoppingCartController {
 
 	@Autowired
 	private ShoppingCartService shoppingCartService;
-
+	
 	/**
 	 * 商品詳細画面より入力された値をDBに挿入する. ダブルサブミット対策として、リダイレクト
 	 * 
@@ -33,11 +36,22 @@ public class ShoppingCartController {
 	 * @param orderId          注文ID
 	 */
 	@PostMapping("/cart")
-	public String insert(ShoppingCartForm shoppingCartForm, Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		Integer userId = loginUser.getUser().getId();
-		System.out.println(userId);
+	public String insert(ShoppingCartForm shoppingCartForm, Model model, @AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
+		// 変更箇所　else内だけにすれば元に戻る
+		Integer userId = null;
+		if(loginUser == null) {
+			Cookie[] cookies = request.getCookies();
+			for(Cookie cookie : cookies) {
+				userId = cookie.getValue().hashCode();
+			}
+			shoppingCartService.insert(shoppingCartForm, userId);
 
-		shoppingCartService.insert(shoppingCartForm, userId);
+		}else {
+			userId = loginUser.getUser().getId();
+			shoppingCartService.insert(shoppingCartForm, userId);
+		}
+		System.out.println(userId);			
+		// 変更箇所ここまで
 
 		return "redirect:/shoppingcart/to-cartlist";
 	}
@@ -51,16 +65,27 @@ public class ShoppingCartController {
 	 * @return
 	 */
 	@GetMapping("/to-cartlist")
-	public String toCartList(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+	public String toCartList(Model model, @AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
 		Order order = new Order();
-		Integer userId = loginUser.getUser().getId();
+		Integer userId = null;
+		if(loginUser == null) {
+			Cookie[] cookies = request.getCookies();
+			for(Cookie cookie : cookies) {
+				userId = cookie.getValue().hashCode();
+				
+				System.out.println("ハッシュコード化後確認");
+				System.out.println(userId);
+			}
+		}else {
+			userId = loginUser.getUser().getId();
+		}
+		
 		order = shoppingCartService.load(userId);
 		
 		if(order.getOrderItemList().size() == 0) {
 			String emptyMessage = "カートに商品がありません";
 			model.addAttribute("emptyMessage",emptyMessage);
 		}
-		
 		System.out.println(order);
 		model.addAttribute("order", order);
 		return "cart_List";

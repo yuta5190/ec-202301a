@@ -31,6 +31,7 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver {
 			HttpServletResponse response, 
 			Object obj, 
 			Exception e) {
+		System.err.println("システムエラーが発生しました！");
 		LOGGER.error("システムエラーが発生しました！", e);
 		return null; // ←500エラーが発生したら自動的にerror/500.htmlに遷移してくれる
 	}

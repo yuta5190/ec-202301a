@@ -52,13 +52,13 @@ public class OrderItem {
 			for (OrderTopping ordertopping : this.orderToppingList) {
 				subTotal += ordertopping.getTopping().getPriceM();
 			}
-			subTotal = this.item.getPriceM() * this.quantity;
+			subTotal = subTotal + this.item.getPriceM() * this.quantity;
 
 		} else if ('L' == (this.size)) {
-			for (OrderTopping topping : this.orderToppingList) {
-				subTotal += topping.getTopping().getPriceL();
+			for (OrderTopping ordertopping : this.orderToppingList) {
+				subTotal += ordertopping.getTopping().getPriceL();
 			}
-			subTotal = this.item.getPriceL() * this.quantity;
+			subTotal = subTotal + this.item.getPriceL() * this.quantity;
 		}
 		return subTotal;
 	}

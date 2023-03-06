@@ -78,10 +78,9 @@
         <!-- table -->
         <div class="row">
           <table class="striped">
-	 	<span class="empty">
-          <div th:text="${emptyMessage}"></div>
-        </span>
-        <div th:if="${order.orderItemList}">
+	 	<div class="empty">
+          <span th:text="${emptyMessage}"></span>
+        </div>
             <thead>
               <tr>
                 <th class="cart-table-th">商品名</th>
@@ -189,8 +188,10 @@
               </tbody>
             </table>
           </div>
+          </div>
+          </div>
 
-          <div th:unless="${order.orderItemList}">
+          <div th:if="${order.orderItemList}">
             <div class="row cart-total-price">
               <div>
                 消費税：<span
@@ -205,17 +206,18 @@
                 >円 (税込)
               </div>
             </div>
-
-          <form th:action="@{/orderconfilm/vieworder}" method="get">
-          <div class="row item-cart-btn">
-            <button class="btn" type="submit">
-              <span>注文に進む</span>
-            </button>
-              </div>
-            </form>
-
           </div>
-        </div>
+
+          <div th:if="${order.orderItemList}">
+            <form th:action="@{/orderconfilm/vieworder}" method="get">
+            <div class="row item-cart-btn">
+              <button class="btn" type="submit">
+                <span>注文に進む</span>
+              </button>
+            </div>
+            </form>
+          </div>
+          </div>
       <!-- end container -->
       </div>
     <!-- end top-wrapper -->
