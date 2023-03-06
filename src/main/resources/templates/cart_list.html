@@ -188,10 +188,8 @@
               </tbody>
             </table>
           </div>
-          </div>
-          </div>
 
-          <div th:if="${order.orderItemList}">
+          <div th:unless="${#lists.isEmpty(order.orderItemList)}">
             <div class="row cart-total-price">
               <div>
                 消費税：<span
@@ -206,9 +204,6 @@
                 >円 (税込)
               </div>
             </div>
-          </div>
-
-          <div th:if="${order.orderItemList}">
             <form th:action="@{/orderconfilm/vieworder}" method="get">
             <div class="row item-cart-btn">
               <button class="btn" type="submit">
@@ -216,7 +211,6 @@
               </button>
             </div>
             </form>
-          </div>
           </div>
       <!-- end container -->
       </div>
