@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -51,7 +52,12 @@ public class OrderConfilmController {
 			UserInfo user = loginUser.getUser();
 			Integer id = user.getId();
 			Order order = orderconfilmservice.findByOrderid(id);
-			model.addAttribute("order", order);
+			orderform.setDestinationName(user.getName());
+			orderform.setDestinationEmail(user.getEmail());
+			orderform.setDestinationZipcode(user.getZipcode());
+			orderform.setDestinationAddress(user.getAddress());
+			orderform.setDestinationTel(user.getTelephone());
+			model.addAttribute("order", order);			
 			return "order_confirm";
 		}
 	}
