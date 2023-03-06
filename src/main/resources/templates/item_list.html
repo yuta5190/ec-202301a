@@ -80,13 +80,15 @@
     <!-- search form -->
     <div class="search-wrapper">
       <div class="container">
-        <form th:action="@{/}" method="get" class="search-form">
+        <form th:action="@{/}" method="get" class="search-form"
+        	th:object="${inputTextForm}">
           <input
             type="text"
             name="name"
             class="search-name-input"
             autocomplete="name"
             list="itemList"
+            th:field="*{name}"
           />
 
           <datalist id="itemList">
@@ -107,12 +109,14 @@
           th:action="@{/sort}"
           method="get"
           class="search-form"
+          th:object="${inputTextForm}"
         >
           <select
             onchange="document.sortitem.submit();"
             name="sort"
             id="itemsort"
             class="browser-default"
+            th:field="*{sort}"
           >
             <option th:value="0">並び替え</option>
             <option th:value="1">名前(昇順)</option>

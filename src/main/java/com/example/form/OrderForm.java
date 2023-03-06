@@ -6,45 +6,47 @@ import jakarta.validation.constraints.Pattern;
 
 /**
  * 注文者情報フォーム
+ * 
  * @author yoshidayuuta
  *
  */
 public class OrderForm {
-	/**注文ID*/
+	/** 注文ID */
 	private Integer id;
-	/**注文者名*/
-	@NotBlank(message="名前を入力して下さい")
+	/** 注文者名 */
+	@NotBlank(message = "名前を入力して下さい")
 	private String destinationName;
-	@NotBlank(message="メールアドレスを入力して下さい")
-	@Email(message="メールアドレスの形式が不正です")
-	/**注文者メールアドレス*/
+	@NotBlank(message = "メールアドレスを入力して下さい")
+	@Email(message = "メールアドレスの形式が不正です")
+	/** 注文者メールアドレス */
 	private String destinationEmail;
-	/**注文者郵便番号*/
-	@Pattern(regexp="^[0-9]{3}-[0-9]{4}$",message="郵便番号はXXX-XXXXの形式で入力してください")
+	/** 注文者郵便番号 */
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はXXX-XXXXの形式で入力してください")
 	private String destinationZipcode;
-	/**注文者住所*/
-	@NotBlank(message="住所を入力して下さい")
-	@Pattern(regexp="^(070|080|090)-\\d{4}-\\d{4}$",message="電話番号はXXX-XXX-XXXXの形式で入力してください")
+	/** 注文者住所 */
+	@NotBlank(message = "住所を入力して下さい")
+
 	private String destinationAddress;
-	/**注文者電話番号*/
-	@NotBlank(message="配達日を入力して下さい")
+	/** 注文者電話番号 */
+
+	@Pattern(regexp = "^(070|080|090)-\\d{4}-\\d{4}$", message = "電話番号はXXX-XXX-XXXXの形式で入力してください")
 	private String destinationTel;
-	/**お届け日*/
-	@NotBlank(message="配達日を入力して下さい")
+	/** お届け日 */
+	@NotBlank(message = "配達日を入力して下さい")
 	private String orderDate;
-	/**お届け時間*/
+	/** お届け時間 */
 	private String orderTime;
-	/**支払い方法*/
+	/** 支払い方法 */
 	private Integer paymentMethod;
-	/**合計金額*/
+	/** 合計金額 */
 	private Integer totalPrice;
 
 	public OrderForm() {
 	}
 
-	public OrderForm(Integer id,  String destinationName, String destinationEmail,
-			String destinationZipcode, String destinationAddress, String destinationTel, String orderDate,
-			String orderTime, Integer paymentMethod, Integer totalPrice) {
+	public OrderForm(Integer id, String destinationName, String destinationEmail, String destinationZipcode,
+			String destinationAddress, String destinationTel, String orderDate, String orderTime, Integer paymentMethod,
+			Integer totalPrice) {
 		super();
 		this.id = id;
 		this.destinationName = destinationName;
@@ -140,11 +142,10 @@ public class OrderForm {
 
 	@Override
 	public String toString() {
-		return "OrderForm [id=" + id + ", destinationName=" + destinationName
-				+ ", destinationEmail=" + destinationEmail + ", destinationZipcode=" + destinationZipcode
-				+ ", destinationAddress=" + destinationAddress + ", destinationTel=" + destinationTel + ", orderDate="
-				+ orderDate + ", orderTime=" + orderTime + ", paymentMethod=" + paymentMethod + ", totalPrice="
-				+ totalPrice + "]";
+		return "OrderForm [id=" + id + ", destinationName=" + destinationName + ", destinationEmail=" + destinationEmail
+				+ ", destinationZipcode=" + destinationZipcode + ", destinationAddress=" + destinationAddress
+				+ ", destinationTel=" + destinationTel + ", orderDate=" + orderDate + ", orderTime=" + orderTime
+				+ ", paymentMethod=" + paymentMethod + ", totalPrice=" + totalPrice + "]";
 	}
 
 }
