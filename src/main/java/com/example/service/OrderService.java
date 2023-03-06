@@ -37,8 +37,10 @@ public class OrderService {
 		Order order = orderrepository.findByUserIdAndStatus(user.getId(), 0);
 		if (form.getPaymentMethod() == 1) {
 			order.setPaymentMethod(1);
+			order.setStatus(1);
 		} else if (form.getPaymentMethod() == 2) {
 			order.setPaymentMethod(2);
+			order.setStatus(2);
 		}
 		order.setTotalPrice(form.getTotalPrice());
 		LocalDate date = LocalDate.now();
