@@ -126,7 +126,7 @@
                   placeholder="郵便番号を入力して下さい"
                 />
                 <label for="zipcode">郵便番号</label>
-                <button class="btn" type="button">
+                <button id="get_address_btn" class="btn" type="button">
                   <span>住所検索</span>
                 </button>
               </div>
@@ -217,6 +217,9 @@
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+	    <script th:src="@{/js/get_address.js}"></script>
   </body>
 </html>
