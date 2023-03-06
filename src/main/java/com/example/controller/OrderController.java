@@ -33,6 +33,7 @@ public class OrderController {
 	@PostMapping("/orderinfosend")
 	public String orderInfoSend(@Validated OrderForm orderform, BindingResult result, Model model,
 			@AuthenticationPrincipal LoginUser loginUser,HttpServletRequest request) {
+		if(orderform.getOrderDate().equals("")) {return controller.orderPost(model, orderform, loginUser,request);}
 		LocalDateTime date = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dates = LocalDate.parse(orderform.getOrderDate(), formatter);
