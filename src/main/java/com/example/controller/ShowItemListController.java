@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Item;
+import com.example.form.InputTextForm;
 import com.example.repository.ItemRepository;
 import com.example.service.ShowItemListService;
 
@@ -35,9 +36,9 @@ public class ShowItemListController {
 	 * @return 商品一覧画面
 	 */
 	@GetMapping("")
-	public String showItemList(Model model, String name, Integer page) {
+	public String showItemList(Model model, InputTextForm form) {
 
-		List<Item> itemList = service.showItemList(name);
+		List<Item> itemList = service.showItemList(form.getName());
 		if (itemList.size() == 0) {
 			model.addAttribute("errorMessage", "該当する商品はありません。");
 			itemList = service.showItemList(null);
@@ -54,11 +55,9 @@ public class ShowItemListController {
 	 * @return　商品並び替え結果
 	 */
 	@GetMapping("/sort")
-	public String sortName(Model model,Integer sort) {
-		System.out.println(sort);
-		List<Item> sortList = service.sortItem(sort);
+	public String sortName(Model model,InputTextForm form) {
+		List<Item> sortList = service.sortItem(form.getSort());
 		model.addAttribute(sortList);
-		System.out.println(sortList);
 		return "item_list";
 	}
 	
