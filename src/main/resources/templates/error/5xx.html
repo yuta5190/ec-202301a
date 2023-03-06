@@ -2,12 +2,34 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+
+ <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+<link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+ <link
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      rel="stylesheet"
+    />
 <title>Insert title here</title>
+	<style>
+    .center{
+  		width:700px;
+      margin: 0 auto;
+  
+    }
+  
+  </style>
 </head>
 <body>
-<pre>
-以下のいずれかの理由でシステムの操作を中断しました。
+<div class="center">
+<h1>以下のいずれかの理由でシステムの操作を中断しました。</h1>
 
+<pre>
 ・不正な操作が行われた
 ・長い時間操作を行わなかった
 ・現在システムメンテナンス中
@@ -17,5 +39,6 @@
 </pre>
 
 <a th:href="@{/login-user}" class="navbar-link">ログイン画面</a>
+</div>
 </body>
 </html>
