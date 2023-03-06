@@ -19,6 +19,8 @@ import com.example.domain.UserInfo;
 import com.example.form.OrderForm;
 import com.example.service.OrderService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/order")
@@ -30,7 +32,7 @@ public class OrderController {
 
 	@PostMapping("/orderinfosend")
 	public String orderInfoSend(@Validated OrderForm orderform, BindingResult result, Model model,
-			@AuthenticationPrincipal LoginUser loginUser) {
+			@AuthenticationPrincipal LoginUser loginUser,HttpServletRequest request) {
 		LocalDateTime date = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dates = LocalDate.parse(orderform.getOrderDate(), formatter);
@@ -50,7 +52,7 @@ public class OrderController {
 
 		}
 		if (result.hasErrors()) {
-			return controller.orderPost(model, orderform, loginUser);
+			return controller.orderPost(model, orderform, loginUser,request);
 		}
 		;
 		UserInfo user = loginUser.getUser();

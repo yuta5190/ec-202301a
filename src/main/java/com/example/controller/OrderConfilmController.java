@@ -13,6 +13,9 @@ import com.example.domain.UserInfo;
 import com.example.form.OrderForm;
 import com.example.service.OrderConfilmService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * 注文内容を表示するコントローラー
  * 
@@ -44,9 +47,15 @@ public class OrderConfilmController {
 	 * @return　詳細確認画面
 	 */
 	@GetMapping("/vieworder")
-	public String orderPost(Model model,OrderForm orderform,@AuthenticationPrincipal LoginUser loginUser) {
-		if (loginUser.getUser() == null) {
-			return "login";
+	public String orderPost(Model model,OrderForm orderform,@AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
+		if (loginUser == null) {
+			Cookie[] cookies = request.getCookies();
+			for(Cookie cookie : cookies) {
+				Integer id = cookie.getValue().hashCode();
+				Order order = orderconfilmservice.findByOrderid(id);
+				model.addAttribute("order", order);
+			}
+			return "order_confirm";
 		} else {
 			UserInfo user = loginUser.getUser();
 			Integer id = user.getId();
@@ -54,6 +63,17 @@ public class OrderConfilmController {
 			model.addAttribute("order", order);
 			return "order_confirm";
 		}
+		
+		// 元のコード
+//		if (loginUser.getUser() == null) {
+//			return "login";
+//		} else {
+//			UserInfo user = loginUser.getUser();
+//			Integer id = user.getId();
+//			Order order = orderconfilmservice.findByOrderid(id);
+//			model.addAttribute("order", order);
+//			return "order_confirm";
+//		}
 	}
 
 	
