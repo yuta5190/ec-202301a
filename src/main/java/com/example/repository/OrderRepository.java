@@ -248,7 +248,6 @@ public class OrderRepository {
 //		String sql="SELECT id, user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method FROM orders WHERE user_id = :userId AND status = :status;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		
-		System.out.println("sql:" + sql);
 		Order order = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
 		
 		return order;
@@ -308,7 +307,6 @@ public class OrderRepository {
 		sql.append(" LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON ");
 		sql.append("oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status ORDER BY oi.id;");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
-		System.out.println(sql.toString());
 		Order order = template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
