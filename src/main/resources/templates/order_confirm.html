@@ -131,7 +131,7 @@
 						<div class="input-field">
      <div class="error" th:errors="*{destinationName}"></div>
 			<input id="name" type="text" th:field="*{destinationName}" name="destinationName" /><label
-								for="name">お名前</label>
+								for="name" >お名前</label>
 								
 						</div>
 					</div>
@@ -243,5 +243,6 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	    <script th:src="@{/js/get_address.js}"></script>
+	    <script th:src="@{/js/user_form.js}"></script>
 </body>
 </html>
