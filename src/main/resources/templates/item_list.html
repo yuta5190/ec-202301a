@@ -73,6 +73,10 @@
             <span sec:authorize="hasRole('ROLE_USER')">
               <a th:href="@{/orederhistory/view}">注文履歴</a></span
             >
+            <span sec:authorize="hasRole('ROLE_USER')">
+            <span sec:authentication="principal.user.name">山田</span>さん</span>
+            <div sec:authorize="!isAuthenticated()">
+            <span>ゲストさん</span></div>
           </div>
         </div>
       </div>
