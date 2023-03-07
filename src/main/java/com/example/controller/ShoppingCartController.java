@@ -28,7 +28,7 @@ public class ShoppingCartController {
 
 	@Autowired
 	private ShoppingCartService shoppingCartService;
-	
+
 	/**
 	 * 商品詳細画面より入力された値をDBに挿入する. ダブルサブミット対策として、リダイレクト
 	 * 
@@ -36,29 +36,29 @@ public class ShoppingCartController {
 	 * @param orderId          注文ID
 	 */
 	@PostMapping("/cart")
-	public String insert(ShoppingCartForm shoppingCartForm, Model model, @AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
-		// 変更箇所　else内だけにすれば元に戻る
+	public String insert(ShoppingCartForm shoppingCartForm, Model model, @AuthenticationPrincipal LoginUser loginUser,
+			HttpServletRequest request) {
+		// 変更箇所 else内だけにすれば元に戻る
 		Integer userId = null;
-		if(loginUser == null) {
+		if (loginUser == null) {
 			Cookie[] cookies = request.getCookies();
-			for(Cookie cookie : cookies) {
+			for (Cookie cookie : cookies) {
 				userId = cookie.getValue().hashCode();
 			}
 			shoppingCartService.insert(shoppingCartForm, userId);
 
-		}else {
+		} else {
 			userId = loginUser.getUser().getId();
 			shoppingCartService.insert(shoppingCartForm, userId);
 		}
-		System.out.println(userId);			
+		System.out.println(userId);
 		// 変更箇所ここまで
 
 		return "redirect:/shoppingcart/to-cartlist";
 	}
 
 	/**
-	 * カート追加時のリダイレクト先. 
-	 * ログイン状態のユーザーの注文情報をカートリストに表示
+	 * カート追加時のリダイレクト先. ログイン状態のユーザーの注文情報をカートリストに表示
 	 * 
 	 * @param model     リクエストスコープ
 	 * @param loginUser ログイン中のユーザー情報
@@ -68,25 +68,21 @@ public class ShoppingCartController {
 	public String toCartList(Model model, @AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
 		Order order = new Order();
 		Integer userId = null;
-		if(loginUser == null) {
+		if (loginUser == null) {
 			Cookie[] cookies = request.getCookies();
-			for(Cookie cookie : cookies) {
+			for (Cookie cookie : cookies) {
 				userId = cookie.getValue().hashCode();
-				
-				System.out.println("ハッシュコード化後確認");
-				System.out.println(userId);
 			}
-		}else {
+		} else {
 			userId = loginUser.getUser().getId();
 		}
-		
+
 		order = shoppingCartService.load(userId);
-		
-		if(order.getOrderItemList().size() == 0) {
+
+		if (order.getOrderItemList().size() == 0) {
 			String emptyMessage = "カートに商品がありません";
-			model.addAttribute("emptyMessage",emptyMessage);
+			model.addAttribute("emptyMessage", emptyMessage);
 		}
-		System.out.println(order);
 		model.addAttribute("order", order);
 		return "cart_List";
 	}
