@@ -52,7 +52,7 @@ public class ShoppingCartService {
 			Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
 			orderItemRepository.insert(shoppingCartForm, orderId);
 			Integer orderItemId = orderItemRepository.load(orderId).getId();
-			if(shoppingCartForm.getToppingIdList() != null) {
+			if (shoppingCartForm.getToppingIdList() != null) {
 				orderToppingRepository.insert(shoppingCartForm, orderItemId);
 			}
 		} else {
@@ -60,7 +60,7 @@ public class ShoppingCartService {
 			Integer orderId = orderRepository.findByUserIdAndStatus(userId, status).getId();
 			orderItemRepository.insert(shoppingCartForm, orderId);
 			Integer orderItemId = orderItemRepository.load(orderId).getId();
-			if(shoppingCartForm.getToppingIdList() != null) {
+			if (shoppingCartForm.getToppingIdList() != null) {
 				orderToppingRepository.insert(shoppingCartForm, orderItemId);
 			}
 		}
