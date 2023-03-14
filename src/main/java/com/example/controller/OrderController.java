@@ -3,7 +3,8 @@ package com.example.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,19 +22,40 @@ import com.example.service.OrderService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
+/**
+ * 注文時のコントローラークラス
+ * 
+ * @author yoshidayuuta
+ *
+ */
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+
 	@Autowired
 	private OrderService orderservice;
 	@Autowired
 	private OrderConfilmController controller;
+	@Autowired
+	private JavaMailSender javaMailSender;
 
+	/**
+	 * 注文情報をDBに保存するメソッド
+	 * 
+	 * @param orderform 注文時入力フォーム
+	 * @param result    エラーメッセージをhtmlに返す因数
+	 * @param model     モデル
+	 * @param loginUser ログインしているユーザーの情報
+	 * @param request   クッキー情報の取得
+	 * @return 決済後画面
+	 */
 	@PostMapping("/orderinfosend")
 	public String orderInfoSend(@Validated OrderForm orderform, BindingResult result, Model model,
-			@AuthenticationPrincipal LoginUser loginUser,HttpServletRequest request) {
-		if(orderform.getOrderDate().equals("")) {return controller.orderPost(model, orderform, loginUser);}
+			@AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
+
+		if (orderform.getOrderDate().equals("")) {
+			return controller.orderPost(model, orderform, loginUser);
+		}
 		LocalDateTime date = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dates = LocalDate.parse(orderform.getOrderDate(), formatter);
@@ -57,6 +79,14 @@ public class OrderController {
 		}
 		;
 		UserInfo user = loginUser.getUser();
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setTo("yuta@sample.com");
+		mailMessage.setReplyTo("yuuta@sample.com");
+		mailMessage.setFrom("yuuta@sample.com");
+		mailMessage.setSubject("テストメール");
+		mailMessage.setText("テストメールです");
+		System.out.println(mailMessage);
+		javaMailSender.send(mailMessage);
 		orderservice.updateOrder(orderform, user);
 		return "order_finished";
 	}

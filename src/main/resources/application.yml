@@ -1,9 +1,19 @@
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ec-202301a
-    username: postgres
-    password: postgres
+    mail:
+           host: smtp.gmail.com
+           port: 587
+           username: yuta@sample.com
+           password: ovry wafq zpal leuf
+           properties:
+            mail:
+             smtp:
+              auth: true
+              starttls.enable: true
+    datasource:
+     driver-class-name: org.postgresql.Driver
+     url: jdbc:postgresql://localhost:5432/ec-202301a
+     username: postgres
+     password: postgres
 server:
   servlet:
-    context-path: /ec-202301a
+    context-path: /ec-202301a  
