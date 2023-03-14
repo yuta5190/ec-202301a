@@ -17,21 +17,22 @@ import com.example.service.OrderHistoryService;
 @Controller
 @RequestMapping("/orederhistory")
 public class OrderHistoryViewContoroller {
-@Autowired
-private OrderHistoryService orderhistoryservice;
-	
-/**
- * ユーザーの注文履歴所法を表示
- * @param model　モデル
- * @param order　注文情報
- * @param loginUser　ログイン情報
- * @return　注文履歴画面
- */
-@GetMapping("/view")
-public String view(Model model,Order order,@AuthenticationPrincipal LoginUser loginUser) {
-	UserInfo User = loginUser.getUser();
-	List<Order> orderList= orderhistoryservice.orderHistoryView(User.getId());
-	model.addAttribute("orderList",orderList);
-	return"order_history";
-}
+	@Autowired
+	private OrderHistoryService orderhistoryservice;
+
+	/**
+	 * ユーザーの注文履歴所法を表示
+	 * 
+	 * @param model     モデル
+	 * @param order     注文情報
+	 * @param loginUser ログイン情報
+	 * @return 注文履歴画面
+	 */
+	@GetMapping("/view")
+	public String view(Model model, Order order, @AuthenticationPrincipal LoginUser loginUser) {
+		UserInfo User = loginUser.getUser();
+		List<Order> orderList = orderhistoryservice.orderHistoryView(User.getId());
+		model.addAttribute("orderList", orderList);
+		return "order_history";
+	}
 }

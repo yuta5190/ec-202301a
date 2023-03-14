@@ -1,6 +1,5 @@
 package com.example.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -33,19 +32,21 @@ public class OrderConfilmController {
 	 * @param userId ログインユーザーID
 	 * @return 注文内容確認画面
 	 */
-	
+
 	@GetMapping("")
 	public String index() {
-		return"cart_list";
+		return "cart_list";
 	}
+
 	/**
 	 * ログインしているユーザー情報を受け取り、詳細確認画面を表示させる。
-	 * @param userId　　ユーザーID
-	 * @param model モデル
-	 * @return　詳細確認画面
+	 * 
+	 * @param userId ユーザーID
+	 * @param model  モデル
+	 * @return 詳細確認画面
 	 */
 	@GetMapping("/vieworder")
-	public String orderPost(Model model,OrderForm orderform,@AuthenticationPrincipal LoginUser loginUser) {
+	public String orderPost(Model model, OrderForm orderform, @AuthenticationPrincipal LoginUser loginUser) {
 		if (loginUser.getUser() == null) {
 			return "login";
 		} else {
@@ -57,12 +58,9 @@ public class OrderConfilmController {
 			orderform.setDestinationZipcode(user.getZipcode());
 			orderform.setDestinationAddress(user.getAddress());
 			orderform.setDestinationTel(user.getTelephone());
-			model.addAttribute("order", order);			
+			model.addAttribute("order", order);
 			return "order_confirm";
 		}
 	}
-
-	
-	
 
 }

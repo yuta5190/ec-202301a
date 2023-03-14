@@ -27,7 +27,6 @@ public class ShowItemListController {
 	@Autowired
 	ItemRepository repository;
 
-
 	/**
 	 * 商品一覧を出力
 	 * 
@@ -43,7 +42,7 @@ public class ShowItemListController {
 			model.addAttribute("errorMessage", "該当する商品はありません。");
 			itemList = service.showItemList(null);
 		}
-		 model.addAttribute("itemList", itemList);
+		model.addAttribute("itemList", itemList);
 
 		return "item_list";
 	}
@@ -52,14 +51,13 @@ public class ShowItemListController {
 	 * 商品一覧を並び替える(名前昇順).
 	 * 
 	 * @param model モデル
-	 * @return　商品並び替え結果
+	 * @return 商品並び替え結果
 	 */
 	@GetMapping("/sort")
-	public String sortName(Model model,InputTextForm form) {
+	public String sortName(Model model, InputTextForm form) {
 		List<Item> sortList = service.sortItem(form.getSort());
 		model.addAttribute(sortList);
 		return "item_list";
 	}
-	
-	
+
 }

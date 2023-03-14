@@ -81,8 +81,8 @@ public class OrderController {
 		UserInfo user = loginUser.getUser();
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setTo("yuta@sample.com");
-		mailMessage.setReplyTo("yuuta@sample.com");
-		mailMessage.setFrom("yuuta@sample.com");
+		mailMessage.setReplyTo("yuta@sample.com");
+		mailMessage.setFrom("yuta@sample.com");
 		mailMessage.setSubject("テストメール");
 		mailMessage.setText("テストメールです");
 		System.out.println(mailMessage);
