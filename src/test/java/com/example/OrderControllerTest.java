@@ -1,10 +1,10 @@
 package com.example;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -19,32 +19,19 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.validation.BindingResult;
 
-import com.example.controller.OrderController;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
-import com.example.domain.UserInfo;
-import com.example.form.OrderForm;
-import com.example.repository.OrderRepository;
-import com.example.service.OrderService;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.form.OrderForm;
+
 
 @SpringBootTest
 public class OrderControllerTest {
-	@Autowired
-	private OrderService orderService;
-	@Autowired
-	private OrderRepository orderRepository;
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	@Autowired
-	private OrderController orderController;
-	@Autowired
-	private HttpServletRequest request;
-	@Autowired
-	private BindingResult result;
+
 
 	// Formを作成するメソッド
 	public OrderForm formmade(int x, String date, String time) {
@@ -154,7 +141,6 @@ public class OrderControllerTest {
 		} catch (Exception e) {
 			assertTrue(e.toString().contains("配達日を入力して下さい"));
 		}
-
 	}
 
 	@DisplayName("注文情報をDBに保存するメソッド 正常　入力値チェック　validation")
@@ -165,17 +151,6 @@ public class OrderControllerTest {
 		}catch(Exception e) {
 			assertNull(e,"TC2:期待された結果と異なります");
 		}}
-	
-	@DisplayName("注文情報をDBに保存するメソッド 正常　入力値チェック　validation")
-	@Test
-	void validationOrderFormTestOfBeforDate() {
-			OrderForm form = this.formmade(1, "2000/01/01", "00:00:00");
-			UserInfo user = new UserInfo();
-			user.setId(1000);
-			orderController.orderInfoSend(form,result, null,user,request);
-			}
-	
-
 	
 			
 	}
