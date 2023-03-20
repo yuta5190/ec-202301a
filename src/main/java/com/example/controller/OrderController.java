@@ -57,23 +57,19 @@ public class OrderController {
 			return controller.orderPost(model, orderform, loginUser);
 		}
 		LocalDateTime date = LocalDateTime.now();
+		System.out.println(date);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dates = LocalDate.parse(orderform.getOrderDate(), formatter);
 		LocalDateTime datetime = dates.atStartOfDay();
+		datetime=datetime.plusHours(Integer.parseInt(orderform.getOrderTime())-3);
+		System.out.println(datetime);
+		System.out.println(datetime.isBefore(date));
 		if (datetime.isBefore(date)) {
 			System.out.println("前の日付");
 			FieldError fieldError = new FieldError(result.getObjectName(), "orderDate", "今から3時間後の日時をご入力ください");
 			result.addError(fieldError);
-		}
-		if (datetime.isEqual(date)) {
-			System.out.println("同日");
-			if (date.getHour() <= (Integer.parseInt(orderform.getOrderTime()) - 3)) {
-				System.out.println("時間が前");
-				FieldError fieldError = new FieldError(result.getObjectName(), "orderDate", "今から3時間後の日時をご入力ください");
-				result.addError(fieldError);
-			}
-
-		}
+				}
+		
 		if (result.hasErrors()) {
 			return controller.orderPost(model, orderform, loginUser);
 		}
