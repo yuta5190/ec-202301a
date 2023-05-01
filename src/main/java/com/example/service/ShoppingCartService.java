@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +15,7 @@ import com.example.repository.OrderToppingRepository;
 /**
  * ショッピングカート情報を操作するサービスクラス.
  * 
- * @author seiji_kitahara
+ * @author yoshida_yuta
  *
  */
 @Service
@@ -33,10 +35,11 @@ public class ShoppingCartService {
 	 * @param userId ユーザーID
 	 * @return オーダー情報
 	 */
-	public Order load(Integer userId) {
+	public Optional<Order> load(Integer userId) {
 		Order order = new Order();
 		order = orderRepository.load(userId, 0);
-		return order;
+		Optional<Order> optOrder = Optional.ofNullable(order);
+		return optOrder;
 	}
 
 	/**

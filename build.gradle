@@ -13,7 +13,6 @@ repositories {
 }
 
 dependencies {
-   
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -25,8 +24,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'	
 }
 
 tasks.named('test') {

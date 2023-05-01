@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 /**
  * 注文者情報フォーム
  * 
- * @author yoshidayuuta
+ * @author yoshida_yuta
  *
  */
 public class OrderForm {

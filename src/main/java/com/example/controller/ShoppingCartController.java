@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * ショッピングカード情報を操作するコントローラークラス.
  * 
- * @author seiji_kitahara
+ * @author 　yoshida_yuta
  *
  */
 @Controller
@@ -66,8 +68,8 @@ public class ShoppingCartController {
 	 */
 	@GetMapping("/to-cartlist")
 	public String toCartList(Model model, @AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
-		Order order = new Order();
-		Integer userId = null;
+	
+		Integer userId = 0;
 		if (loginUser == null) {
 			Cookie[] cookies = request.getCookies();
 			for (Cookie cookie : cookies) {
@@ -77,13 +79,17 @@ public class ShoppingCartController {
 			userId = loginUser.getUser().getId();
 		}
 
-		order = shoppingCartService.load(userId);
+		Optional<Order> optOrder = shoppingCartService.load(userId);
 
-		if (order.getOrderItemList().size() == 0) {
+		if (optOrder.isPresent()) {
+			model.addAttribute("order", optOrder.get());
+			
+		}else {
+			Order order=new Order();
 			String emptyMessage = "カートに商品がありません";
+			model.addAttribute("order", order);
 			model.addAttribute("emptyMessage", emptyMessage);
 		}
-		model.addAttribute("order", order);
 		return "cart_List";
 	}
 

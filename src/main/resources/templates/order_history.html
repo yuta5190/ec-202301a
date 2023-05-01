@@ -62,7 +62,7 @@
 			<h1 class="page-title">注文内容履歴</h1>
 			<!-- table -->
 			<div class="row">
-			<div th:if="${orderList==null}">注文履歴がありません</div>
+			<div th:error="${nullMessage}"></div>
 			<div >
 				<table class="striped" th:each="order:${orderList}">
 					
