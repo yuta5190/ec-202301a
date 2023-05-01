@@ -20,7 +20,7 @@ import com.example.service.InsertUserService;
 /**
  * ユーザー登録を行うコントローラー.
  * 
- * @author yohidayuuta
+ * @author yohida_yuta
  *
  */
 @Controller
@@ -35,7 +35,6 @@ public class InsertUserController {
 
 	@GetMapping("")
 	public String index(InsertUserForm form, Model model) {
-
 		return "register_admin";
 	}
 
@@ -59,7 +58,6 @@ public class InsertUserController {
 
 		/** メールアドレスの重複チェックをします. */
 		UserInfo userMailAddress = insertUserService.findByMaillAddress(form.getEmail());
-
 		if (!(userMailAddress == null)) {
 			FieldError fieldError = new FieldError(result.getObjectName(), "email", "そのメールアドレスは既に使われています");
 			result.addError(fieldError);

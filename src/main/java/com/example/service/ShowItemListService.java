@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Item;
+import com.example.domain.SortType;
 import com.example.repository.ItemRepository;
 
 /**
  * 商品情報を操作するサービス.
  * 
- * @author ichiyoshikenta
+ * @author yoshida_yuta
  *
  */
 
@@ -29,38 +30,22 @@ public class ShowItemListService {
 	 * @return 商品一覧.
 	 */
 	public List<Item> showItemList(String name) {
-		List<Item> itemList = repository.findAll();
-
-		if (name == null) {
-			itemList = repository.findAll();
-		} else {
-			itemList = repository.findByName(name);
-		}
+		List<Item> itemList = (name.isBlank()) ? repository.findAll() : repository.findByName(name);
 		return itemList;
 	}
-	
-	public List<Item> sortItem(Integer sort) {
-		List<Item> sortList = null;
-		if (sort == 1) {
-			sortList = repository.sortByName();
-		} else if (sort == 2) {
-			sortList = repository.sortByNameDesc();
-		} else if (sort == 3) {
-			sortList = repository.sortByMprice();
-		} else if (sort == 4) {
-			sortList = repository.sortByMpriceDesc();
-		} else if (sort == 5) {
-			sortList = repository.sortByLprice();
-		} else if (sort == 6) {
-			sortList = repository.sortByLpriceDecs();
-		} else if (sort == 0) {
-			sortList = repository.findAll();
-		} else {
-			sortList = repository.findAll();
-		}
 
+	/**
+	 * 並び替え
+	 * 
+	 * 新しく要素を入れる時はHTMLのOPTIONに追加、domainのSortTypeに追加
+	 * 
+	 * @param sort HTMLでプルダウンｎvalue
+	 * @return 並び順を変えたitemList
+	 */
+	public List<Item> sortItem(Integer sort) {
+		String sortType = SortType.getSortTypeByNum(sort).getName();
+		List<Item> sortList = repository.sort(sortType);
 		return sortList;
 	}
-
 
 }

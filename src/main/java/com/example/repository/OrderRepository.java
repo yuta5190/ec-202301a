@@ -19,6 +19,10 @@ import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
 import com.example.domain.Topping;
 
+/**
+ * @author yoshida_yuta
+ *
+ */
 @Repository
 public class OrderRepository {
 
@@ -268,6 +272,7 @@ public class OrderRepository {
 		sql.append(
 				"oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status ORDER BY oi.id;");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
+		//oPtional入れたい
 		Order order = template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}

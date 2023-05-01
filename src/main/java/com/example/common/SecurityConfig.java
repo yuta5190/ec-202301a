@@ -37,7 +37,7 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
-				.requestMatchers("/", "/login-user", "/insert-user", "/insert-user/insert","/item/**",
+				.requestMatchers("/", "/login-user","/login-user/**", "/insert-user", "/insert-user/insert","/item/**",
 						"/item/showItemList/showDetail", "/shoppingcart/**", "/shoppingcart/cart",
 						"/shoppingcart/to-cartlist", "/shoppingcart/delete", "/orderconfilm/**",
 						"/orderconfilm/vieworder","/sort")

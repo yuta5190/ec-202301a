@@ -12,7 +12,7 @@ import com.example.service.ShowItemDetailService;
 /**
  * 商品詳細を操作するコントローラ.
  * 
- * @author ichiyoshikenta
+ * @author yoshida_yuta
  *
  */
 @Controller

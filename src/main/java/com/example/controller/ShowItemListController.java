@@ -16,7 +16,7 @@ import com.example.service.ShowItemListService;
 /**
  * 商品情報を操作するコントローラ.
  * 
- * @author ichiyoshikenta
+ * @author yoshida_yuta
  *
  */
 @Controller
@@ -36,14 +36,12 @@ public class ShowItemListController {
 	 */
 	@GetMapping("")
 	public String showItemList(Model model, InputTextForm form) {
-
-		List<Item> itemList = service.showItemList(form.getName());
+		List<Item> itemList = service.showItemList("");
 		if (itemList.size() == 0) {
 			model.addAttribute("errorMessage", "該当する商品はありません。");
 			itemList = service.showItemList(null);
 		}
 		model.addAttribute("itemList", itemList);
-
 		return "item_list";
 	}
 

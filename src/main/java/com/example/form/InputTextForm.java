@@ -3,7 +3,7 @@ package com.example.form;
 /**
  * 検索、並び替え後に表示を残すためのフォームクラス
  * 
- * @author Ichiyoshikenta
+ * @author yoshida_yuta
  *
  */
 public class InputTextForm {

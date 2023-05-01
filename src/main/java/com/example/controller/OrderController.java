@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * 注文時のコントローラークラス
  * 
- * @author yoshidayuuta
+ * @author yoshida_yuta
  *
  */
 @Controller
@@ -35,13 +35,11 @@ public class OrderController {
 	@Autowired
 	private OrderService orderservice;
 	@Autowired
-	private OrderConfilmController controller;
-	@Autowired
 	private JavaMailSender javaMailSender;
 
 	/**
 	 * 注文情報をDBに保存するメソッド
-	 * 
+	 *
 	 * @param orderform 注文時入力フォーム
 	 * @param result    エラーメッセージをhtmlに返す因数
 	 * @param model     モデル
@@ -52,30 +50,22 @@ public class OrderController {
 	@PostMapping("/orderinfosend")
 	public String orderInfoSend(@Validated OrderForm orderform, BindingResult result, Model model,
 			@AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
-
 		if (orderform.getOrderDate().equals("")) {
-			return controller.orderPost(model, orderform, loginUser);
+			return "redirect:/vieworder?model=" + model +  "&orderform=" + orderform +  "&loginUser=" + loginUser;
 		}
+		
 		LocalDateTime date = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dates = LocalDate.parse(orderform.getOrderDate(), formatter);
 		LocalDateTime datetime = dates.atStartOfDay();
+		datetime=datetime.plusHours(Integer.parseInt(orderform.getOrderTime())-3);
 		if (datetime.isBefore(date)) {
-			System.out.println("前の日付");
 			FieldError fieldError = new FieldError(result.getObjectName(), "orderDate", "今から3時間後の日時をご入力ください");
 			result.addError(fieldError);
-		}
-		if (datetime.isEqual(date)) {
-			System.out.println("同日");
-			if (date.getHour() <= (Integer.parseInt(orderform.getOrderTime()) - 3)) {
-				System.out.println("時間が前");
-				FieldError fieldError = new FieldError(result.getObjectName(), "orderDate", "今から3時間後の日時をご入力ください");
-				result.addError(fieldError);
-			}
-
-		}
+				}
+		
 		if (result.hasErrors()) {
-			return controller.orderPost(model, orderform, loginUser);
+			return "redirect:/vieworder?model=" + model +  "&orderform=" + orderform +  "&loginUser=" + loginUser;
 		}
 		;
 		UserInfo user = loginUser.getUser();
@@ -85,10 +75,8 @@ public class OrderController {
 		mailMessage.setFrom("yuta@sample.com");
 		mailMessage.setSubject("テストメール");
 		mailMessage.setText("テストメールです");
-		System.out.println(mailMessage);
 		javaMailSender.send(mailMessage);
 		orderservice.updateOrder(orderform, user);
 		return "order_finished";
 	}
-
 }

@@ -11,7 +11,7 @@ import com.example.repository.OrderRepository;
 
 /**
  * 履歴情報を表示するサービス
- * @author yoshidayuuta
+ * @author yoshida_yuta
  *
  */
 @Service
@@ -22,7 +22,6 @@ public class OrderHistoryService {
 	
 public List<Order> orderHistoryView(Integer id) {
 	List<Order> orderList=orderrepository.historyFindByUserIdAndStatus(id, 1);
-	System.out.println(orderList);
 	return orderList;
 }
 

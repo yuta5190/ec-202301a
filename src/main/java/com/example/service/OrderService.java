@@ -19,7 +19,7 @@ import com.example.repository.OrderRepository;
 
 /**
  * 購入確認フォームをDBに入れるサービスクラス
- * @author yoshidayuuta
+ * @author yoshida_yuta
  *
  */
 @Service
@@ -52,7 +52,7 @@ public class OrderService {
 		order.setDestinationAddress(form.getDestinationAddress());
 		order.setDestinationTel(form.getDestinationTel());
 		try {
-			Date deliveryTime = (Date) new SimpleDateFormat("yyyy-MM-dd-hh時").parse(form.getOrderDate() + "-" + form.getOrderTime());
+			Date deliveryTime = (Date) new SimpleDateFormat("yyyy-MM-dd-hh").parse(form.getOrderDate() + "-" + form.getOrderTime());
 			order.setDeliveryTime(new Timestamp(deliveryTime.getTime()));
 		} catch (ParseException e) {
 			e.printStackTrace();

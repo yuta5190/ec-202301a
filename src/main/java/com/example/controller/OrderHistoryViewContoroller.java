@@ -14,6 +14,10 @@ import com.example.domain.Order;
 import com.example.domain.UserInfo;
 import com.example.service.OrderHistoryService;
 
+/**
+ * @author yoshida_yuuta
+ *
+ */
 @Controller
 @RequestMapping("/orederhistory")
 public class OrderHistoryViewContoroller {
@@ -32,6 +36,7 @@ public class OrderHistoryViewContoroller {
 	public String view(Model model, Order order, @AuthenticationPrincipal LoginUser loginUser) {
 		UserInfo User = loginUser.getUser();
 		List<Order> orderList = orderhistoryservice.orderHistoryView(User.getId());
+		model.addAttribute("nullMessage",(orderList.isEmpty()) ? "購入履歴はありません":"");
 		model.addAttribute("orderList", orderList);
 		return "order_history";
 	}
