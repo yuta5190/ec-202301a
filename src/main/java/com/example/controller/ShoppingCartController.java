@@ -53,7 +53,6 @@ public class ShoppingCartController {
 			userId = loginUser.getUser().getId();
 			shoppingCartService.insert(shoppingCartForm, userId);
 		}
-		System.out.println(userId);
 		// 変更箇所ここまで
 
 		return "redirect:/shoppingcart/to-cartlist";
