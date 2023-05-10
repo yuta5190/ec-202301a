@@ -35,12 +35,11 @@ public class OrderRepository {
 		List<OrderItem> orderItemList = new LinkedList<OrderItem>();
 		List<OrderTopping> orderToppingList = null;
 		List<Topping> toppingList = null;
-
+		
 		// 前の注文IDを退避しておくための変数
 		long beforeOrderId = 0;
 		// 前の注文商品IDを退避しておくための変数
 		long beforeOrderItemId = 0;
-
 		// データが無くなるまで参照
 		while (rs.next()) {
 
@@ -86,8 +85,6 @@ public class OrderRepository {
 				item.setPriceL(rs.getInt("item_price_l"));
 				item.setImagePath(rs.getString("item_image_path"));
 				item.setDeleted(rs.getBoolean("item_deleted"));
-//				item.setToppingList(toppingList);
-
 				orderItem.setItem(item);
 
 				// 空の注文トッピングリストを作成
@@ -126,7 +123,6 @@ public class OrderRepository {
 	};
 
 	private static final ResultSetExtractor<List<Order>> ORDERLIST_RESULT_SET_EXTRACTOR = (rs) -> {
-
 		Order order = new Order();
 		List<OrderItem> orderItemList = new LinkedList<OrderItem>();
 		List<OrderTopping> orderToppingList = null;
@@ -185,8 +181,6 @@ public class OrderRepository {
 				item.setPriceL(rs.getInt("item_price_l"));
 				item.setImagePath(rs.getString("item_image_path"));
 				item.setDeleted(rs.getBoolean("item_deleted"));
-//				item.setToppingList(toppingList);
-
 				orderItem.setItem(item);
 
 				// 空の注文トッピングリストを作成
@@ -235,7 +229,6 @@ public class OrderRepository {
 	 */
 	public Order findByUserIdAndStatus(Integer userId, Integer status) {
 		String sql = "SELECT ord.id AS ord_id, ord.user_id AS ord_user_id, ord.status AS ord_status, ord.total_price AS ord_total_price, ord.order_date AS ord_order_date, ord.destination_name AS ord_destination_name, ord.destination_email AS ord_destination_email, ord.destination_zipcode AS ord_destination_zipcode, ord.destination_address AS ord_destination_address, ord.destination_tel AS ord_destination_tel, ord.delivery_time AS ord_delivery_time, ord.payment_method AS ord_payment_method, oi.id AS order_items_id, oi.item_id AS order_items_item_id, oi.order_id AS order_items_order_id, oi.quantity AS order_items_quantity, oi.size AS order_items_size, i.id AS item_id, i.name AS item_name, i.description AS item_description, i.price_m AS item_price_m, i.price_l AS item_price_l, i.image_path AS item_image_path, i.deleted AS item_deleted, ot.id AS order_topping_id, ot.topping_id AS order_topping_topping_id, ot.order_item_id AS order_topping_order_item_id, t.id AS topping_id, t.name AS topping_name, t.price_m AS topping_price_m, t.price_l AS topping_price_l  FROM orders AS ord LEFT JOIN order_items AS oi ON ord.id = oi.order_id LEFT JOIN items AS i ON oi.item_id = i.id LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id LEFT JOIN toppings AS t ON ot.topping_id = t.id WHERE ord.user_id = :userId AND ord.status = :status;";
-//		String sql="SELECT id, user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method FROM orders WHERE user_id = :userId AND status = :status;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 
 		Order order = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
@@ -293,7 +286,6 @@ public class OrderRepository {
 		StringBuilder insertSql = new StringBuilder();
 		insertSql.append("INSERT INTO orders(user_id, status, total_price");
 		insertSql.append(") VALUES(:userId, :status, 0);");
-
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		template.update(insertSql.toString(), param);
 	}
@@ -321,7 +313,5 @@ public class OrderRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		List<Order> orderList = template.query(sql, param, ORDERLIST_RESULT_SET_EXTRACTOR);
 		return orderList;
-
 	}
-
 }
